@@ -130,6 +130,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:user'])->group(function () {
 
+
     Route::controller(CartController::class)->group(function () {
         Route::get('/checkout', 'checkout')->name('front.checkout');
         Route::post('/process-checkout', 'processCheckout')->name('front.processCheckout');
@@ -139,12 +140,17 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::post('/remove-discount', 'removeCoupon')->name('front.removeCoupon');
     });
 
-    Route::get('/logout', [UserController::class, 'UserLogout'])->name('user.logout');
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/my-orders', 'orders')->name('users.orders');
+        Route::get('/order-detail/{orderId}', 'orderDetail')->name('users.orderDetail');
+        Route::get('/logout', 'UserLogout')->name('user.logout');
+    });
+
+
 
 });
 
 Route::get('/login', [AdminController::class, 'AdminLogin'])->name('login');
-
 
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.home');

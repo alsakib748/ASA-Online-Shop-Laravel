@@ -71,7 +71,13 @@
                     </a>
                 </div>
                 <div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
-                    <a href="{{ route('dashboard') }}" class="nav-link text-dark">My Account</a>
+                    @if(Auth::check())
+                        <a href="{{ route('dashboard') }}" class="nav-link text-white btn btn-primary btn-sm border-0" style="margin-right: 5px">My Account</a>
+                    @else 
+                        <a href="{{ route('login') }}" class="nav-link text-dark btn btn-info btn-sm shadow-none border-0" style="margin-right: 5px">Login</a>
+                        <a href="{{ route('register') }}" class="nav-link text-dark btn btn-warning btn-sm shadow-none border-0" style="margin-right: 5px">Register</a>
+                    @endif    
+
                     <form action="">
                         <div class="input-group">
                             <input type="text" placeholder="Search For Products" class="form-control"
