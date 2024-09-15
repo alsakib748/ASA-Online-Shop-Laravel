@@ -169,7 +169,7 @@
                         <div class="input-group apply-coupan mt-4">
                             <input type="text" id="discount_code" name="discount_code" class="form-control"
                                 placeholder="Coupon Code" />
-                            <button class="btn btn-dark" type="button" id="apply-discount">Apply Coupon</button>
+                            <button class="btn btn-dark" type="button" name="apply-discount" id="apply-discount">Apply Coupon</button>
                         </div>
 
                         <div id="discount-response-wrapper">
@@ -362,7 +362,7 @@
         });
 
         $("#apply-discount").click(function() {
-
+            
             $.ajax({
                 url: "{{ route('front.applyDiscount') }}",
                 type: 'post',

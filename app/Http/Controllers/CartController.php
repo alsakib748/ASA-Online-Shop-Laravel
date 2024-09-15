@@ -261,7 +261,6 @@ class CartController extends Controller
         if ($request->payment_method == 'cod') {
 
             $discountCodeId = NULL;
-            $promoCode = '';
             $shipping = 0;
             $discount = 0;
             $subTotal = Cart::subtotal(2, '.', '');
@@ -339,6 +338,9 @@ class CartController extends Controller
                 $orderItem->total = $item->price * $item->qty;
                 $orderItem->save();
             }
+
+            // Send Order Email
+            orderEmail($order->id, 'customer');
 
             session()->flash("success", "You have successfully placed your order.");
 
@@ -447,7 +449,7 @@ class CartController extends Controller
         if ($code == null) {
             return response()->json([
                 'status' => false,
-                'message' => 'Invalid discount coupon',
+                'message' => 'Discount coupon not be empty!',
             ]);
         }
 
@@ -463,7 +465,7 @@ class CartController extends Controller
             if ($now->lt($startDate)) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Invalid discount coupon',
+                    'message' => 'Discount coupon code start ' . $code->starts_at . '. So try later !',
                 ]);
             }
         }
@@ -474,7 +476,7 @@ class CartController extends Controller
             if ($now->gt($endDate)) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Invalid discount coupon',
+                    'message' => 'Discount coupon not  be available yet!',
                 ]);
             }
         }
@@ -486,7 +488,7 @@ class CartController extends Controller
             if ($couponUsed >= $code->max_uses) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Invalid discount coupon',
+                    'message' => 'This  coupon code has been used ' . $couponUsed . ' times. Please try another one!',
                 ]);
             }
         }
@@ -495,7 +497,7 @@ class CartController extends Controller
         if ($code->max_uses_user > 0) {
             $couponUsedByUser = Order::where(['coupon_code_id' => $code->id, 'user_id' => Auth::user()->id])->count();
 
-            if ($couponUsedByUser >= $code->max_uses_users) {
+            if ($couponUsedByUser >= $code->max_uses_user) {
                 return response()->json([
                     'status' => false,
                     'message' => 'You already used this coupon.',

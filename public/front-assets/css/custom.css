@@ -1,3 +1,7 @@
 .error {
     border-color: red !important;
 }
+
+.login-form{
+    background-image: url('front-assets/front/login-ecommerce.jpg');
+}

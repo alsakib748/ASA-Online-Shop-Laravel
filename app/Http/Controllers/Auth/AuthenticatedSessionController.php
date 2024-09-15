@@ -31,6 +31,11 @@ class AuthenticatedSessionController extends Controller
         $url = '';
         $notification = array();
 
+        // Redirect the previous url  
+        // if (session()->has('url.intended')) {
+        //     return redirect(session()->get('url.intended')); // Redirect to the intended URL
+        // }
+
         if ($request->user()->role === 'admin') {
             // $url = 'admin.dashboard';
             $url = 'admin.dashboard';

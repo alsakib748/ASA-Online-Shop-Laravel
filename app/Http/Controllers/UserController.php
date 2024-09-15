@@ -31,7 +31,9 @@ class UserController extends Controller
 
         $orderItems = OrderItem::where('order_id', $id)->get();
 
-        return view('front.account.order-detail', compact(['order', 'orderItems']));
+        $orderItemsCount = OrderItem::where('order_id', $id)->count();
+
+        return view('front.account.order-detail', compact(['order', 'orderItems', 'orderItemsCount']));
     }
 
 

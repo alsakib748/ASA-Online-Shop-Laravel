@@ -250,6 +250,22 @@
 
     }
 
+    function addToWishList(id){
+        $.ajax({
+            url: '{{ route("front.addToWishList") }}',
+            method: 'POST',
+            data: {id: id},
+            dataType: 'json',
+            success: function(response){
+                if(response.status == true){
+                    
+                }else{
+                    window.location.href="{{ route('login') }}";
+                }
+            }
+        });
+    }
+
     </script>
 
     @yield("customJs")

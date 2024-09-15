@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\DiscountCodeController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ShippingController;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -18,6 +19,10 @@ use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\ProductImageController;
 use App\Http\Controllers\admin\ProductSubCategoryController;
+
+// Route::get('/test', function () {
+//     orderEmail(13);
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -39,8 +44,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
             Route::get('/dashboard', 'AdminDashboard')->name('admin.dashboard');
             Route::get('/logout', 'AdminLogout')->name('admin.logout');
         });
-
-        // **************************************************************************************************  //
 
         // todo: category controller Route
         Route::controller(CategoryController::class)->group(function () {
@@ -124,6 +127,16 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
             // Route::delete('/shipping/{id}', 'destroy')->name('shipping.delete');
         });
 
+        Route::controller(OrderController::class)->group(function () {
+            Route::get(uri: '/orders', action: 'index')->name('orders.index');
+            Route::get('/orders/{id}', 'detail')->name('orders.detail');
+            Route::post('/order/change-status/{id}', 'changeOrderStatus')->name('orders.changeOrderStatus');
+            Route::post('/order/send-email/{id}', 'sendInvoiceEmail')->name('orders.sendInvoiceEmail');
+            // Route::get('/shipping/{id}', 'edit')->name('shipping.edit');
+            // Route::put('/shipping/{id}', 'update')->name('shipping.update');
+            // Route::delete('/shipping/{id}', 'destroy')->name('shipping.delete');
+        });
+
     });
 
 });
@@ -154,6 +167,7 @@ Route::get('/login', [AdminController::class, 'AdminLogin'])->name('login');
 
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.home');
+    Route::post('/add-to-wishlist', 'addToWishList')->name('front.addToWishList');
 });
 
 Route::controller(ShopController::class)->group(function () {
