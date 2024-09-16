@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\DiscountCodeController;
-use App\Http\Controllers\admin\OrderController;
-use App\Http\Controllers\admin\ShippingController;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,10 +11,13 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\BrandController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\admin\SubCategoryController;
+use App\Http\Controllers\admin\DiscountCodeController;
 use App\Http\Controllers\admin\ProductImageController;
 use App\Http\Controllers\admin\ProductSubCategoryController;
 
@@ -24,9 +25,9 @@ use App\Http\Controllers\admin\ProductSubCategoryController;
 //     orderEmail(13);
 // });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+// todo: ******************************************************* Admin Panel (Private) Routes *************************************************** //
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
@@ -137,12 +140,23 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
             // Route::delete('/shipping/{id}', 'destroy')->name('shipping.delete');
         });
 
+        // todo: Admin = user routes
+        Route::controller(App\Http\Controllers\admin\UserController::class)->group(function () {
+            Route::get(uri: '/users', action: 'index')->name('admin.users.index');
+            Route::get('/users/create', 'create')->name('admin.users.create');
+            Route::post('/users', 'store')->name('admin.users.store');
+            Route::get('/users/{user}/edit', 'edit')->name('admin.users.edit');
+            Route::put('/users/{user}', 'update')->name('admin.users.update');
+            Route::delete('/users/{user}', 'destroy')->name('admin.users.delete');
+        });
+
     });
 
 });
 
-Route::middleware(['auth', 'role:user'])->group(function () {
+// todo: ************************************************* User Private Route *******************************************************  //
 
+Route::middleware(['auth', 'role:user'])->group(function () {
 
     Route::controller(CartController::class)->group(function () {
         Route::get('/checkout', 'checkout')->name('front.checkout');
@@ -154,6 +168,9 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     });
 
     Route::controller(UserController::class)->group(function () {
+        Route::get('/dashboard', 'userProfile')->middleware(['auth', 'verified'])->name('dashboard');
+        Route::post('/update-profile', 'updateProfile')->name('users.updateProfile');
+        Route::post('/update-address', 'updateAddress')->name('users.updateAddress');
         Route::get('/my-orders', 'orders')->name('users.orders');
         Route::get('/order-detail/{orderId}', 'orderDetail')->name('users.orderDetail');
         Route::get('/my-wishlist', 'wishlist')->name('users.wishlist');
@@ -163,6 +180,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 
 });
+
+// todo: ************************************************* Public Route *************************************************************  //
 
 Route::get('/login', [AdminController::class, 'AdminLogin'])->name('login');
 
@@ -183,10 +202,3 @@ Route::controller(CartController::class)->group(function () {
     Route::post('/delete-item', 'deleteItem')->name('front.deleteItem.cart');
     Route::get('/checkout', 'checkout')->name('front.checkout');
 });
-
-// Route::middleware(['auth', 'role:admin'])->group(function () {
-
-// });
-
-
-// Route::middleware(['auth', 'role:user'])->group(function () {});

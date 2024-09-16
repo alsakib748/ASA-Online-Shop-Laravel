@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -30,6 +31,7 @@ class AuthenticatedSessionController extends Controller
 
         $url = '';
         $notification = array();
+        // $profileData = [];
 
         // Redirect the previous url  
         // if (session()->has('url.intended')) {
@@ -38,12 +40,14 @@ class AuthenticatedSessionController extends Controller
 
         if ($request->user()->role === 'admin') {
             // $url = 'admin.dashboard';
+            // $profileData = User::where('id', Auth::user()->id)->first();
             $url = 'admin.dashboard';
             $notification = array(
                 'message' => 'User Admin Login Successfully',
                 'alert-type' => 'info'
             );
         } else if ($request->user()->role === 'user') {
+            // $profileData = User::where('id', Auth::user()->id)->first();
             $url = 'dashboard';
             $notification = array(
                 'message' => 'User Login Successfully',
