@@ -34,17 +34,20 @@ class ShopController extends Controller
             $categorySelected = $category->id;
         }
 
+        // filter products by category
         if (!empty($subCategorySlug)) {
             $subCategory = SubCategory::where('slug', $subCategorySlug)->first();
             $products = $products->where('sub_category_id', $subCategory->id);
             $subCategorySelected = $subCategory->id;
         }
 
+        // filter products by brand
         if (!empty($request->get('brand'))) {
             $brandsArray = explode(',', $request->get('brand'));
             $products = $products->whereIn('brand_id', $brandsArray);
         }
 
+        // filter products by price
         if ($request->get('price_max') != '' & $request->get('price_min') != '') {
             if ($request->get('price_max') == 1000) {
                 $products = $products->whereBetween('price', [intval($request->get('price_min')), 1000000]);
@@ -53,6 +56,12 @@ class ShopController extends Controller
             }
         }
 
+        // search products
+        if (!empty($request->get("search"))) {
+            $products = $products->where('title', 'like', '%' . $request->get("search") . '%');
+        }
+
+        // sort products
         if ($request->get('sort') != '') {
             if ($request->get('sort') == 'latest') {
                 $products = $products->orderBy('id', 'DESC');
@@ -87,7 +96,7 @@ class ShopController extends Controller
         if ($product->related_products != "") {
             $productArray = explode(",", $product->related_products);
 
-            $relatedProducts = Product::whereIn("id", $productArray)->get();
+            $relatedProducts = Product::whereIn("id", $productArray)->where('status', 1)->get();
         }
 
         return view('front.product', compact(['product', 'relatedProducts']));

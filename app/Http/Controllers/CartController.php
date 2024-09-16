@@ -263,6 +263,7 @@ class CartController extends Controller
             $discountCodeId = NULL;
             $shipping = 0;
             $discount = 0;
+            $promoCode = '';
             $subTotal = Cart::subtotal(2, '.', '');
 
             // Apply discount here
@@ -337,6 +338,20 @@ class CartController extends Controller
                 $orderItem->price = $item->price;
                 $orderItem->total = $item->price * $item->qty;
                 $orderItem->save();
+
+                // Update Product Stock
+
+                $productData = Product::find($item->id);
+                if ($productData->track_qty == 'Yes') {
+                    $currentQty = $productData->qty;
+
+                    $updatedQty = $currentQty - $item->qty;
+
+                    $productData->qty = $updatedQty;
+
+                    $productData->save();
+                }
+
             }
 
             // Send Order Email
