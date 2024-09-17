@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\PageController;
+use App\Http\Controllers\admin\SettingController;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -150,6 +152,23 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
             Route::delete('/users/{user}', 'destroy')->name('admin.users.delete');
         });
 
+        // todo: Admin = page routes
+        Route::controller(PageController::class)->group(function () {
+            Route::get(uri: '/pages', action: 'index')->name('pages.index');
+            Route::get('/pages/create', 'create')->name('pages.create');
+            Route::post('/pages', 'store')->name('pages.store');
+            Route::get('/pages/{page}/edit', 'edit')->name('pages.edit');
+            Route::put('/pages/{page}', 'update')->name('pages.update');
+            Route::delete('/pages/{page}', 'destroy')->name('pages.delete');
+        });
+
+        // todo: Admin setting routes
+        Route::controller(SettingController::class)->group(function () {
+            Route::get('/change-password', 'changePasswordForm')->name('admin.changePasswordForm');
+            Route::post('/change-password', action: 'processChangePassword')->name('admin.processChangePassword');
+        });
+
+
     });
 
 });
@@ -171,6 +190,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('/dashboard', 'userProfile')->middleware(['auth', 'verified'])->name('dashboard');
         Route::post('/update-profile', 'updateProfile')->name('users.updateProfile');
         Route::post('/update-address', 'updateAddress')->name('users.updateAddress');
+        Route::get('/change-password', 'showChangePasswordForm')->name('users.changePassword');
+        Route::post('/process-change-password', 'changePassword')->name('users.processChangePassword');
         Route::get('/my-orders', 'orders')->name('users.orders');
         Route::get('/order-detail/{orderId}', 'orderDetail')->name('users.orderDetail');
         Route::get('/my-wishlist', 'wishlist')->name('users.wishlist');
@@ -188,6 +209,7 @@ Route::get('/login', [AdminController::class, 'AdminLogin'])->name('login');
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.home');
     Route::post('/add-to-wishlist', 'addToWishList')->name('front.addToWishList');
+    Route::get('/page/{slug}', 'page')->name('front.page');
 });
 
 Route::controller(ShopController::class)->group(function () {

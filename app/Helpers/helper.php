@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Page;
 use App\Models\Order;
 use App\Models\Country;
 use App\Mail\OrderEmail;
@@ -42,8 +43,14 @@ function orderEmail($orderId, $userType = "customer")
     Mail::to($email)->send(new OrderEmail($mailData));
 
 }
-
 function getCountryInfo($id)
 {
     return Country::where('id', $id)->first();
+}
+
+function staticPages()
+{
+    $pages = Page::orderBy('name', 'ASC')->get();
+
+    return $pages;
 }
