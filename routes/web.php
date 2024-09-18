@@ -104,6 +104,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
             Route::put('/products/{product}', 'update')->name('products.update');
             Route::delete('/products/{product}', 'destroy')->name('products.delete');
             Route::get('/get-products', 'getProducts')->name('products.getProducts');
+            Route::get('/ratings', 'productRatings')->name('products.productRatings');
+            Route::get('/change-rating-status', 'changeRatingStatus')->name('products.changeRatingStatus');
         });
 
         Route::controller(ProductSubCategoryController::class)->group(function () {
@@ -216,6 +218,7 @@ Route::controller(FrontController::class)->group(function () {
 Route::controller(ShopController::class)->group(function () {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}', 'index')->name('front.shop');
     Route::get('/product/{slug}', 'product')->name('front.product');
+    Route::post('/save-rating/{productId}', 'saveRating')->name('front.saveRating');
 });
 
 Route::controller(CartController::class)->group(function () {
