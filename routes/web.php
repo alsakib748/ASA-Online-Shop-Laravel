@@ -210,6 +210,7 @@ Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.home');
     Route::post('/add-to-wishlist', 'addToWishList')->name('front.addToWishList');
     Route::get('/page/{slug}', 'page')->name('front.page');
+    Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');
 });
 
 Route::controller(ShopController::class)->group(function () {
