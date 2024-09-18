@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\admin;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\User;
-use Carbon\Carbon;
+use App\Models\TempImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\RedirectResponse;
 
 class AdminController extends Controller
@@ -64,6 +66,34 @@ class AdminController extends Controller
             ->whereDate('created_at', '>=', $lastThirtyDayStartDate)
             ->whereDate('created_at', '<=', $currentData)
             ->sum('grand_total');
+
+        // todo: Delete temp Images 
+
+        $dayBeforeToday = Carbon::now()->subDays(1)->format('Y-m-d H:i:s');
+
+        $tempImages = TempImage::where('created_at', '<=', $dayBeforeToday)->get();
+
+        foreach ($tempImages as $tempImage) {
+
+            $path = public_path('/temp/' . $tempImage->name);
+
+            $thumbPath = public_path('/temp/thumb/' . $tempImage->name);
+
+            // todo: Delete Main Image
+
+            if (File::exists($path)) {
+                File::delete($path);
+            }
+
+            // todo: Delete Thumb Image
+            if (File::exists($thumbPath)) {
+                File::delete($thumbPath);
+            }
+
+            // todo: Delete on database
+            TempImage::where('id', $tempImage->id)->delete();
+
+        }
 
         return view('admin.dashboard', compact([
             'totalOrders',
