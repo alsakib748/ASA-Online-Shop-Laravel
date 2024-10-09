@@ -235,7 +235,7 @@
                                     </div>
                                     @endforeach
                                 @endif
-                                    
+
 
 
                                 </div>
@@ -255,7 +255,7 @@
                 <div class="section-title">
                     <h2>Related Products</h2>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-3 col-sm-4">
                     <div id="related-products" class="carousel">
 
                         @foreach ($relatedProducts as $relProduct)

@@ -72,7 +72,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
                 ]);
             })->name('getSlug');
         });
-        // todo: TempImagesController Route 
+        // todo: TempImagesController Route
         Route::controller(TempImagesController::class)->group(function () {
 
             Route::post('/upload-temp-image', 'create')->name('temp-images.create');

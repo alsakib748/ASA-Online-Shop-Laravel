@@ -28,7 +28,7 @@
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" class="form-control"
                                         placeholder="Name">
-                                    <p></p>    
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -81,7 +81,7 @@
 
                     if (response["status"] == true) {
 
-                        // window.location.href = "{{ route('categories.index') }}";
+                        window.location.href = "{{ route('brands.index') }}";
 
                         // $("#name").removeClass('is-invalid').siblings('p').removeClass(
                         //     'invalid-feedback').html("");
