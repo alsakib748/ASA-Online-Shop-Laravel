@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Page;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Country;
 use App\Mail\OrderEmail;
@@ -25,14 +26,19 @@ function getProductImage($productId)
 function orderEmail($orderId, $userType = "customer")
 {
     $order = Order::where('id', $orderId)->with('items')->first();
+    $email = '';
 
     if ($userType == 'customer') {
         $subject = 'Thanks for your order';
         $email = $order->email;
     } else {
+        $adminEmail = User::select('email')->where('role','admin')->where('status',1)->first();
         $subject = 'You have received an order';
-        $email = env("ADMIN_EMAIL");
+        // $email = env("ADMIN_EMAIL");
+        $email = $adminEmail->email;
     }
+
+    // dd($email);
 
     $mailData = [
         'subject' => $subject,

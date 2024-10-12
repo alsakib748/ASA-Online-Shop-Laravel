@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\PageController;
 use App\Http\Controllers\admin\SettingController;
+use App\Http\Controllers\StripePaymentController;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -180,8 +181,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:user'])->group(function () {
 
     Route::controller(CartController::class)->group(function () {
-        Route::get('/checkout', 'checkout')->name('front.checkout');
+        Route::get('/checkout', 'checkout')->name(name: 'front.checkout');
+        Route::post('/shipping-address', 'shippingAddress')->name('front.shippingAddress');
         Route::post('/process-checkout', 'processCheckout')->name('front.processCheckout');
+        Route::get('/success', 'success')->name('success');
+        Route::get('/cancel', 'cancel')->name('cancel');
         Route::get('/thanks/{orderId}', 'thankYou')->name('front.thankYou');
         Route::post('/get-order-summery', 'getOrderSummery')->name('front.getOrderSummery');
         Route::post('/apply-discount', 'applyDiscount')->name('front.applyDiscount');
@@ -201,6 +205,11 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('/logout', 'UserLogout')->name('user.logout');
     });
 
+    // Route::controller(StripePaymentController::class)->group(function(){
+    //     Route::post('/stripe-payment', 'stripePayment')->name('stripe.payment');
+    //     Route::get('/success', 'success')->name('success');
+    //     Route::get('/cancel', 'cancel')->name('cancel');
+    // });
 
 });
 
@@ -227,4 +236,9 @@ Route::controller(CartController::class)->group(function () {
     Route::post('/update-cart', 'updateCart')->name('front.updateCart');
     Route::post('/delete-item', 'deleteItem')->name('front.deleteItem.cart');
     Route::get('/checkout', 'checkout')->name('front.checkout');
+    // Route::get('/success', 'success')->name('success');
+    // Route::get('/cancel', 'cancel')->name('cancel');
 });
+
+
+
