@@ -6,7 +6,11 @@
     },
     "routes": [{
         "src": "/(.*)",
-        "dest": "/api/index.php"
+        "use" : "@vercel/php",
+        "dest": "/api/index.php",
+        "config": {
+            "buildCommand": "sh install_libssl.sh && npm run build"
+        }
     }],
     "env": {
         "APP_ENV": "production",
