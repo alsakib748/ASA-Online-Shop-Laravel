@@ -202,7 +202,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('/order-detail/{orderId}', 'orderDetail')->name('users.orderDetail');
         Route::get('/my-wishlist', 'wishlist')->name('users.wishlist');
         Route::post('/remove-product-from-wishlist', 'removeProductFromWishList')->name('users.removeProductFromWishList');
-        Route::get('/logout', 'UserLogout')->name('user.logout');
+        Route::post('/logout', 'UserLogout')->name('user.logout');
     });
 
     // Route::controller(StripePaymentController::class)->group(function(){

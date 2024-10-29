@@ -29,7 +29,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class=" section-11 ">
         <div class="container  mt-5">
             <div class="row">
@@ -45,7 +45,7 @@
                             <h2 class="h5 mb-0 pt-2 pb-2">Personal Information</h2>
                         </div>
                         <form method="POST" name="profileForm" id="profileForm">
-                        @csrf    
+                        @csrf
                             <div class="card-body p-4">
                                 <div class="row">
                                     <div class="mb-3">
@@ -80,7 +80,7 @@
                             <h2 class="h5 mb-0 pt-2 pb-2">Address</h2>
                         </div>
                         <form method="POST" name="addressForm" id="addressForm">
-                        @csrf    
+                        @csrf
                             <div class="card-body p-4">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">

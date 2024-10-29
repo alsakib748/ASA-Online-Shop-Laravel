@@ -76,7 +76,7 @@ class UserController extends Controller
     }
 
 
-    // todo; user profile 
+    // todo; user profile
 
     public function userProfile()
     {
@@ -237,6 +237,5 @@ class UserController extends Controller
         return redirect()->route('login');
 
     }
-
 
 }
