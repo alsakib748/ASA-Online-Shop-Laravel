@@ -239,6 +239,3 @@ Route::controller(CartController::class)->group(function () {
     // Route::get('/success', 'success')->name('success');
     // Route::get('/cancel', 'cancel')->name('cancel');
 });
-
-
-
