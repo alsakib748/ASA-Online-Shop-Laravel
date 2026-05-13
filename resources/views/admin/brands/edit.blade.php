@@ -41,6 +41,22 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
+                                    <input type="hidden" id="image_id" name="image_id" value="" />
+                                    <label for="image">Image</label>
+                                    <div class="dropzone dz-clickable" id="image">
+                                        <div class="dz-message needsclick">
+                                            <br>Drop files here or click to upload.<br><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if(!empty($brand->image))
+                                <div>
+                                    <img src="{{ asset('uploads/brand/'.$brand->image) }}" alt="" style="max-width: 100%; height: auto; max-height: 300px; object-fit: contain;">
+                                </div>
+                                @endif
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control">
                                         <option {{ ($brand->status == 1) ? 'selected' : ''  }} value="1">Active</option>
@@ -142,6 +158,29 @@
                 }
 
             });
+        });
+
+        Dropzone.autoDiscover = false;
+        const dropzone = $("#image").dropzone({
+            init: function() {
+                this.on('addedfile',function(file){
+                    if(this.files.length > 1){
+                        this.removeClass(this.files[0]);
+                    }
+                });
+            },
+            url: "{{ route('temp-images.create') }}",
+            maxFiles: 1,
+            paramName: 'image',
+            addRemoveLinks: true,
+            acceptedFiles: "image/jpeg,image/png,image/gif",
+            headers: {
+                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+            },
+            success: function(file, response){
+                $("#image_id").val(response.image_id);
+            }
+
         });
     </script>
 @endsection

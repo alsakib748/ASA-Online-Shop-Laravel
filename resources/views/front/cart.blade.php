@@ -64,7 +64,7 @@
                                                         <h2>{{ $item->name }}</h2>
                                                     </div>
                                                 </td>
-                                                <td>${{ $item->price }}</td>
+                                                <td>৳{{ $item->price }}</td>
                                                 <td>
                                                     <div class="input-group quantity mx-auto" style="width: 100px;">
                                                         <div class="input-group-btn">
@@ -85,7 +85,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    ${{ $item->price * $item->qty }}
+                                                    ৳{{ $item->price * $item->qty }}
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-sm btn-danger"
@@ -108,11 +108,12 @@
 
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>Subtotal</div>
-                                    <div>${{ Cart::subtotal() }}</div>
+                                    <div>৳{{ Cart::subtotal() }}</div>
                                 </div>
-                                
+
                                 <div class="pt-2">
-                                    <a href="{{ route('front.checkout') }}" class="btn-dark btn btn-block w-100">Proceed to Checkout</a>
+                                    <a href="{{ route('front.checkout') }}" class="btn-dark btn btn-block w-100">Proceed to
+                                        Checkout</a>
                                 </div>
                             </div>
                         </div>

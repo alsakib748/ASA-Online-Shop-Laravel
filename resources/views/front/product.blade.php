@@ -68,13 +68,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <small class="pt-2 ps-1">({{ ($product->product_ratings_count > 1) ? $product->product_ratings_count.' Reviews' : $product->product_ratings_count.' Review' }})</small>
+                            <small
+                                class="pt-2 ps-1">({{ $product->product_ratings_count > 1 ? $product->product_ratings_count . ' Reviews' : $product->product_ratings_count . ' Review' }})</small>
                         </div>
                         @if ($product->compare_price > 0)
                             <h2 class="price text-secondary"><del>${{ $product->compare_price }}</del></h2>
                         @endif
 
                         <h2 class="price ">${{ $product->price }}</h2>
+                        <h2 class="price ">৳{{ $product->price }}</h2>
 
                         {!! $product->short_description !!}
 
@@ -183,7 +185,7 @@
                                 <div class="col-md-12 mt-5">
                                     <div class="overall-rating mb-3">
                                         <div class="d-flex">
-                                            <h1 class="h3 pe-3">{{ number_format($avgRating,1) }}</h1>
+                                            <h1 class="h3 pe-3">{{ number_format($avgRating, 1) }}</h1>
                                             <div class="star-rating mt-2" title="">
                                                 <div class="back-stars">
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -201,40 +203,42 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="pt-2 ps-2">({{ ($product->product_ratings_count > 1) ? $product->product_ratings_count.' Reviews' : $product->product_ratings_count.' Review' }})</div>
-                                        </div>
-
-                                    </div>
-                                @if ($product->product_ratings->isNotEmpty())
-                                    @foreach ($product->product_ratings as $rating)
-                                    @php
-                                        $ratingPer = ($rating->rating*100)/5;
-                                    @endphp
-                                    <div class="rating-group mb-4">
-                                        <span class="author"><strong>{{ $rating->username }} </strong></span>
-                                        <div class="star-rating mt-2" title="">
-                                            <div class="back-stars">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                <div class="front-stars" style="width: {{ $ratingPer }}%">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </div>
+                                            <div class="pt-2 ps-2">
+                                                ({{ $product->product_ratings_count > 1 ? $product->product_ratings_count . ' Reviews' : $product->product_ratings_count . ' Review' }})
                                             </div>
                                         </div>
-                                        <div class="my-3">
-                                            <p> {{ $rating->comment }} </p>
-                                        </div>
+
                                     </div>
-                                    @endforeach
-                                @endif
+                                    @if ($product->product_ratings->isNotEmpty())
+                                        @foreach ($product->product_ratings as $rating)
+                                            @php
+                                                $ratingPer = ($rating->rating * 100) / 5;
+                                            @endphp
+                                            <div class="rating-group mb-4">
+                                                <span class="author"><strong>{{ $rating->username }} </strong></span>
+                                                <div class="star-rating mt-2" title="">
+                                                    <div class="back-stars">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+
+                                                        <div class="front-stars" style="width: {{ $ratingPer }}%">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="my-3">
+                                                    <p> {{ $rating->comment }} </p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
 
 
@@ -301,9 +305,11 @@
                                     <a class="h6 link" href="">{{ $relProduct->title }}</a>
                                     <div class="price mt-2">
                                         <span class="h5"><strong>${{ $relProduct->price }}</strong></span>
+                                        <span class="h5"><strong>৳{{ $relProduct->price }}</strong></span>
                                         @if ($relProduct->compare_price > 0)
                                             <span
                                                 class="h6 text-underline"><del>${{ $relProduct->compare_price }}</del></span>
+                                            class="h6 text-underline"><del>৳{{ $relProduct->compare_price }}</del></span>
                                         @endif
                                     </div>
                                 </div>
@@ -362,8 +368,8 @@
                         } else {
                             $(".product-rating-error").html("");
                         }
-                    }else{
-                        window.location.href = "{{ route('front.product',$product->slug) }}";
+                    } else {
+                        window.location.href = "{{ route('front.product', $product->slug) }}";
                     }
 
                 }

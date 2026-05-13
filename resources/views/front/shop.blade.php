@@ -126,7 +126,7 @@
                                     <div class="card product-card">
                                         <div class="product-image position-relative">
                                             <a href="{{ route('front.product', $product->slug) }}" class="product-img">
-        
+
                                                 @if (!empty($productImage->image))
                                                     <img src="{{ asset('uploads/product/small/' . $productImage->image) }}"
                                                         class="card-img-top">
@@ -137,7 +137,7 @@
                                             </a>
                                             <a onclick="addToWishList({{ $product->id }})" class="whishlist"
                                                 href="javascript:void(0)"><i class="far fa-heart"></i></a>
-        
+
                                             <div class="product-action">
                                                 @if ($product->track_qty == 'Yes')
                                                     @if ($product->qty > 0)
@@ -158,14 +158,15 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        
+
                                         <div class="card-body text-center mt-3">
-                                            <a class="h6 link" href="{{ route('front.product', $product->slug) }}">{{ $product->title }}</a>
+                                            <a class="h6 link"
+                                                href="{{ route('front.product', $product->slug) }}">{{ $product->title }}</a>
                                             <div class="price mt-2">
-                                                <span class="h5"><strong>${{ $product->price }}</strong></span>
+                                                <span class="h5"><strong>৳{{ $product->price }}</strong></span>
                                                 @if ($product->compare_price > 0)
                                                     <span
-                                                        class="h6 text-underline"><del>${{ $product->compare_price }}</del></span>
+                                                        class="h6 text-underline"><del>৳{{ $product->compare_price }}</del></span>
                                                 @endif
                                             </div>
                                         </div>
@@ -186,7 +187,7 @@
 @endsection
 
 @section('customJs')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
     <script>
         $(".brand-label").change(function() {
             apply_filters();
@@ -238,8 +239,8 @@
 
             var keyword = $("#search").val();
 
-            if(keyword.length > 0){
-                url += '&search='+keyword;
+            if (keyword.length > 0) {
+                url += '&search=' + keyword;
             }
 
             url += '&sort=' + $("#sort").val();

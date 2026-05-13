@@ -47,8 +47,9 @@
 									<thead>
 										<tr>
 											<th width="60">ID</th>
+											<th>Image</th>
 											<th>Name</th>
-                                            <th>Category</th>
+                                            											<th>Category</th>
 											<th>Slug</th>
 											<th width="100">Status</th>
 											<th width="100">Action</th>
@@ -59,8 +60,13 @@
                                         @foreach($subCategories as $key => $subCategory)
                                         <tr>
 											<td>{{ $subCategory->id }}</td>
+											<td>
+                                                @if(!empty($subCategory->image))
+                                                <img src="{{ asset('uploads/subcategory/'.$subCategory->image) }}" alt="" style="width: 60px; height: 60px; object-fit: contain;">
+                                                @endif
+                                            </td>
 											<td>{{ $subCategory->name }}</td>
-                                            <td>{{ $subCategory->categoryName }}</td>
+                                            											<td>{{ $subCategory->categoryName }}</td>
 											<td>{{ $subCategory->slug }}</td>
 											<td>
                                             @if($subCategory->status == 1)    

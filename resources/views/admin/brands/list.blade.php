@@ -47,6 +47,7 @@
 									<thead>
 										<tr>
 											<th width="60">ID</th>
+											<th>Image</th>
 											<th>Name</th>
 											<th>Slug</th>
 											<th width="100">Status</th>
@@ -58,6 +59,11 @@
                                         @foreach($brands as $key => $brand)
                                         <tr>
 											<td>{{ $brand->id }}</td>
+											<td>
+                                                @if(!empty($brand->image))
+                                                <img src="{{ asset('uploads/brand/'.$brand->image) }}" alt="" style="width: 60px; height: 60px; object-fit: contain;">
+                                                @endif
+                                            </td>
 											<td>{{ $brand->name }}</td>
 											<td>{{ $brand->slug }}</td>
 											<td>

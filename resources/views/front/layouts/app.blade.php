@@ -89,7 +89,9 @@
 
                     <form action="{{ route('front.shop') }}" method="GET">
                         <div class="input-group">
-                            <input value="{{ Request::get('search') }}" type="text" placeholder="Search For Products" class="form-control" name="search" id="search">
+                            <input value="{{ Request::get('search') }}" type="text"
+                                placeholder="Search For Products" class="form-control" name="search"
+                                id="search">
                             <button type="submit" class="input-group-text">
                                 <i class="fa fa-search"></i>
                             </button>
@@ -137,6 +139,8 @@
                                 </li>
                             @endforeach
                         @endif
+                        <li><a class="dropdown-item nav-link" href="/shop">Shop</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="right-nav py-0">
@@ -173,7 +177,8 @@
                         <ul>
                             @if (staticPages()->isNotEmpty())
                                 @foreach (staticPages() as $page)
-                                <li><a href="{{ route('front.page',$page->slug) }}" title="{{ $page->name }}">{{ $page->name }}</a></li>
+                                    <li><a href="{{ route('front.page', $page->slug) }}"
+                                            title="{{ $page->name }}">{{ $page->name }}</a></li>
                                 @endforeach
                             @endif
                             {{-- <li><a href="about-us.php" title="About">About</a></li>
@@ -225,7 +230,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -4,8 +4,11 @@ namespace App\Http\Controllers\admin;
 
 use App\Models\Category;
 use App\Models\SubCategory;
+use App\Models\TempImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Validator;
 
 class SubCategoryController extends Controller
@@ -49,6 +52,30 @@ class SubCategoryController extends Controller
             $subCategory->showHome = $request->showHome;
             $subCategory->category_id = $request->category;
             $subCategory->save();
+
+            // Save Image Here
+            if (!empty($request->image_id)) {
+                $tempImage = TempImage::find($request->image_id);
+
+                $extArray = explode('.', $tempImage->name);
+                $ext = last($extArray);
+
+                $newImageName = $subCategory->id . '.' . $ext;
+                $sPath = public_path() . '/temp/' . $tempImage->name;
+                $dPath = public_path() . '/uploads/subcategory/' . $newImageName;
+                File::copy($sPath, $dPath);
+
+                // Generate Image Thumbnail
+                $dPath = public_path() . '/uploads/subcategory/thumb/' . $newImageName;
+                $img = Image::make($sPath);
+                $img->fit(450, 600, function ($constraint) {
+                    $constraint->upsize();
+                });
+                $img->save($dPath);
+
+                $subCategory->image = $newImageName;
+                $subCategory->save();
+            }
 
             $request->session()->flash('success', 'Sub Category Created Successfully');
 
@@ -110,6 +137,38 @@ class SubCategoryController extends Controller
             $subCategory->showHome = $request->showHome;
             $subCategory->category_id = $request->category;
             $subCategory->save();
+
+            $oldImage = $subCategory->image;
+
+            // Save Image Here
+            if (!empty($request->image_id)) {
+                $tempImage = TempImage::find($request->image_id);
+
+                $extArray = explode('.', $tempImage->name);
+                $ext = last($extArray);
+
+                $newImageName = $subCategory->id . '-' . time() . '.' . $ext;
+                $sPath = public_path() . '/temp/' . $tempImage->name;
+                $dPath = public_path() . '/uploads/subcategory/' . $newImageName;
+                File::copy($sPath, $dPath);
+
+                // Generate Image Thumbnail
+                $dPath = public_path() . '/uploads/subcategory/thumb/' . $newImageName;
+                $img = Image::make($sPath);
+                $img->fit(450, 600, function ($constraint) {
+                    $constraint->upsize();
+                });
+                $img->save($dPath);
+
+                $subCategory->image = $newImageName;
+                $subCategory->save();
+
+                // Delete Old Images Here
+                if (!empty($oldImage)) {
+                    File::delete(public_path() . '/uploads/subcategory/thumb/' . $oldImage);
+                    File::delete(public_path() . '/uploads/subcategory/' . $oldImage);
+                }
+            }
 
             $request->session()->flash('success', 'Sub Category Updated Successfully');
 

@@ -217,13 +217,62 @@
                         </div>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h2 class="h4 mb-3">Featured product</h2>
-                                <div class="mb-3">
-                                    <select name="is_featured" id="is_featured" class="form-control">
-                                        <option value="No">No</option>
-                                        <option value="Yes">Yes</option>
-                                    </select>
-                                    <p class="error"></p>
+                                <h2 class="h4 mb-3">Product Types</h2>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_featured">Featured</label>
+                                            <select name="is_featured" id="is_featured" class="form-control">
+                                                <option value="No">No</option>
+                                                <option value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_latest">Latest</label>
+                                            <select name="is_latest" id="is_latest" class="form-control">
+                                                <option value="No">No</option>
+                                                <option value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_trending">Trending</label>
+                                            <select name="is_trending" id="is_trending" class="form-control">
+                                                <option value="No">No</option>
+                                                <option value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_flash_sale">Flash Sale</label>
+                                            <select name="is_flash_sale" id="is_flash_sale" class="form-control">
+                                                <option value="No">No</option>
+                                                <option value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_best_seller">Best Seller</label>
+                                            <select name="is_best_seller" id="is_best_seller" class="form-control">
+                                                <option value="No">No</option>
+                                                <option value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_offer">Offer</label>
+                                            <select name="is_offer" id="is_offer" class="form-control">
+                                                <option value="No">No</option>
+                                                <option value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

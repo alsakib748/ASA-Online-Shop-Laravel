@@ -252,15 +252,74 @@
                         </div>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h2 class="h4 mb-3">Featured product</h2>
-                                <div class="mb-3">
-                                    <select name="is_featured" id="is_featured" class="form-control">
-                                        <option {{ $product->is_featured == 'No' ? 'selected' : '' }} value="No">No
-                                        </option>
-                                        <option {{ $product->is_featured == 'Yes' ? 'selected' : '' }} value="Yes">
-                                            Yes</option>
-                                    </select>
-                                    <p class="error"></p>
+                                <h2 class="h4 mb-3">Product Types</h2>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_featured">Featured</label>
+                                            <select name="is_featured" id="is_featured" class="form-control">
+                                                <option {{ $product->is_featured == 'No' ? 'selected' : '' }}
+                                                    value="No">No</option>
+                                                <option {{ $product->is_featured == 'Yes' ? 'selected' : '' }}
+                                                    value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_latest">Latest</label>
+                                            <select name="is_latest" id="is_latest" class="form-control">
+                                                <option {{ $product->is_latest == 'No' ? 'selected' : '' }}
+                                                    value="No">No</option>
+                                                <option {{ $product->is_latest == 'Yes' ? 'selected' : '' }}
+                                                    value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_trending">Trending</label>
+                                            <select name="is_trending" id="is_trending" class="form-control">
+                                                <option {{ $product->is_trending == 'No' ? 'selected' : '' }}
+                                                    value="No">No</option>
+                                                <option {{ $product->is_trending == 'Yes' ? 'selected' : '' }}
+                                                    value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_flash_sale">Flash Sale</label>
+                                            <select name="is_flash_sale" id="is_flash_sale" class="form-control">
+                                                <option {{ $product->is_flash_sale == 'No' ? 'selected' : '' }}
+                                                    value="No">No</option>
+                                                <option {{ $product->is_flash_sale == 'Yes' ? 'selected' : '' }}
+                                                    value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_best_seller">Best Seller</label>
+                                            <select name="is_best_seller" id="is_best_seller" class="form-control">
+                                                <option {{ $product->is_best_seller == 'No' ? 'selected' : '' }}
+                                                    value="No">No</option>
+                                                <option {{ $product->is_best_seller == 'Yes' ? 'selected' : '' }}
+                                                    value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="is_offer">Offer</label>
+                                            <select name="is_offer" id="is_offer" class="form-control">
+                                                <option {{ $product->is_offer == 'No' ? 'selected' : '' }} value="No">
+                                                    No</option>
+                                                <option {{ $product->is_offer == 'Yes' ? 'selected' : '' }}
+                                                    value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -281,7 +340,7 @@
 @endsection
 
 @section('customJs')
-<script>
+    <script>
         $(document).ready(function() {
 
             $('.related-product').select2({
@@ -305,26 +364,25 @@
                 event.preventDefault();
 
                 let formArray = $(this).serializeArray();
+                console.log('Form data:', formArray);
 
                 $("button[type='submit']").prop('disabled', true);
 
                 $.ajax({
                     url: '{{ route('products.update', $product->id) }}',
-                    type: 'put',
+                    type: 'PUT',
                     data: formArray,
                     dataType: 'json',
                     success: function(response) {
-                        // console.log(response);
-                        $("button[type='submit']").prop('disabled', false);
-
-                        if (response["status"] == true) {
+                        if (response.status === true) {
                             $(".error").removeClass('invalid-feedback').html('');
                             $("input[type='text'],select,input[type='number']").removeClass(
                                 'is-invalid');
 
                             window.location.href = "{{ route('products.index') }}";
-
-                        } else {
+                        } else if (response.notFound === true) {
+                            window.location.href = "{{ route('products.index') }}";
+                        } else if (response.status === false) {
                             let errors = response['errors'];
 
                             $(".error").removeClass('invalid-feedback').html('');
@@ -335,12 +393,11 @@
                                     .addClass(
                                         'invalid-feedback').html(value);
                             });
-
+                        } else {
+                            // Fallback - redirect anyway
+                            window.location.href = "{{ route('products.index') }}";
                         }
 
-                    },
-                    error: function(jqXHR, exception) {
-                        console.log("Something went wrong !");
                     }
                 });
 
@@ -384,7 +441,7 @@
                             $.each(response["subCategories"], function(key, item) {
                                 $("#sub_category").append(
                                     `<option value='${item.id}'>${item.name}</option>`
-                                    );
+                                );
                             })
                         }
 
@@ -431,7 +488,7 @@
                 // $("#image_id").val(response.image_id);
 
                 let html = `<div class="col-md-3 col-sm-3" id="image-row-${response.image_id}"><div class="card">
-                    <input type="hidden" name="image_array[]" value="${response.image_id}" /> 
+                    <input type="hidden" name="image_array[]" value="${response.image_id}" />
                     <img src="${response.ImagePath}" class="card-img-top" alt="">
                     <div class="card-body">
                     <a href="javascript:void(0)" onclick="deleteImage(${response.image_id})" class="btn btn-danger">Delete</a>
@@ -457,7 +514,7 @@
                     data: {
                         id: id
                     },
-                    success: funcation(response) {
+                    success: function(response) {
                         if (response.status == true) {
                             alert(response.message);
                         } else {
@@ -467,6 +524,5 @@
                 });
             }
         }
-
-</script>
+    </script>
 @endsection

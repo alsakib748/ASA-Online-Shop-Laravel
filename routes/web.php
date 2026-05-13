@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\admin\PageController;
 use App\Http\Controllers\admin\SettingController;
-use App\Http\Controllers\StripePaymentController;
-use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +46,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
         Route::controller(AdminController::class)->group(function () {
             Route::get('/dashboard', 'AdminDashboard')->name('admin.dashboard');
+            Route::get('/inventory', 'inventoryDashboard')->name('admin.inventoryDashboard');
+            Route::get('/analytics', 'analyticsDashboard')->name('admin.analyticsDashboard');
             Route::get('/logout', 'AdminLogout')->name('admin.logout');
         });
 

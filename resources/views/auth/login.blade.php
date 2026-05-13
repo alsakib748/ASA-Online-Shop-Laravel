@@ -1,8 +1,6 @@
 @extends('front.layouts.app')
 
 @section('content')
-
-
     {{-- <x-guest-layout>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -70,19 +68,21 @@
         <div class="container">
             <div class="login-form">
                 @if (Session::has('success'))
-            <div class="alert alert-success">
-                {{ Session::get('success') }}
-            </div>
-        @endif
+                    <div class="alert alert-success">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
                 <form action="{{ route('login') }}" method="POST">
-                @csrf
+                    @csrf
                     <h4 class="modal-title">Login to Your Account</h4>
                     <div class="form-group">
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus />
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Email"
+                            value="admin@gmail.com" required autofocus />
                         <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
                     </div>
                     <div class="form-group">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Password"  required autocomplete="current-password">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                            value="11111111" required autocomplete="current-password">
                         <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />
                     </div>
                     <div class="form-group small">
@@ -94,6 +94,4 @@
             </div>
         </div>
     </section>
-
-
 @endsection

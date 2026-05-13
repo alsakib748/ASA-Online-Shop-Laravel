@@ -64,7 +64,6 @@
                                                             {{ !empty($customerAddress) && $customerAddress->country_id == $country->id ? 'selected' : '' }}
                                                             value="{{ $country->id }}">{{ $country->name }}</option>
                                                     @endforeach
-                                                    <option value="rest_of_world">Rest of World</option>
                                                 @endif
                                             </select>
                                             <p></p>
@@ -150,27 +149,27 @@
                             @foreach (Cart::content() as $item)
                                 <div class="d-flex justify-content-between pb-2">
                                     <div class="h6">{{ $item->name }} X {{ $item->qty }}</div>
-                                    <div class="h6">${{ $item->price * $item->qty }}</div>
+                                    <div class="h6">৳{{ $item->price * $item->qty }}</div>
                                 </div>
                             @endforeach
 
                             <div class="d-flex justify-content-between summery-end">
                                 <div class="h6"><strong>Subtotal</strong></div>
-                                <div class="h6"><strong>${{ Cart::subtotal() }}</strong></div>
+                                <div class="h6"><strong>৳{{ Cart::subtotal() }}</strong></div>
                             </div>
                             <div class="d-flex justify-content-between summery-end">
                                 <div class="h6"><strong>Discount</strong></div>
-                                <div class="h6"><strong id="discount_value">${{ $discount }}</strong></div>
+                                <div class="h6"><strong id="discount_value">৳{{ $discount }}</strong></div>
                             </div>
                             <div class="d-flex justify-content-between mt-2">
                                 <div class="h6"><strong>Shipping</strong></div>
                                 <div class="h6"><strong
-                                        id="shippingAmount">${{ number_format($totalShippingCharge, 2) }}</strong>
+                                        id="shippingAmount">৳{{ number_format($totalShippingCharge, 2) }}</strong>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between mt-2 summery-end">
                                 <div class="h5"><strong>Total</strong></div>
-                                <div class="h5"><strong id="grandTotal">${{ number_format($grandTotal, 2) }}</strong>
+                                <div class="h5"><strong id="grandTotal">৳{{ number_format($grandTotal, 2) }}</strong>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +201,8 @@
                             </div> --}}
 
                         <div class="card-body">
-                            <form action="{{ route('front.processCheckout') }}" method="POST" name="payment-method" id="payment-method">
+                            <form action="{{ route('front.processCheckout') }}" method="POST" name="payment-method"
+                                id="payment-method">
                                 @csrf
                                 <div class="d-md-flex align-items-md-center justify-content-md-evenly">
                                     <div class="">

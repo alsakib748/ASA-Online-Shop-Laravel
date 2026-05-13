@@ -53,6 +53,11 @@ class ProductController extends Controller
             'track_qty' => 'required|in:Yes,No',
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No',
+            'is_latest' => 'required|in:Yes,No',
+            'is_trending' => 'required|in:Yes,No',
+            'is_flash_sale' => 'required|in:Yes,No',
+            'is_best_seller' => 'required|in:Yes,No',
+            'is_offer' => 'required|in:Yes,No',
         ];
 
         if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
@@ -80,6 +85,11 @@ class ProductController extends Controller
             $product->sub_category_id = $request->sub_category;
             $product->brand_id = $request->brand;
             $product->is_featured = $request->is_featured;
+            $product->is_latest = $request->is_latest;
+            $product->is_trending = $request->is_trending;
+            $product->is_flash_sale = $request->is_flash_sale;
+            $product->is_best_seller = $request->is_best_seller;
+            $product->is_offer = $request->is_offer;
             $product->related_products = (!empty($request->related_products)) ? implode(',', $request->related_products) : '';
             $product->save();
 
@@ -192,6 +202,11 @@ class ProductController extends Controller
             'track_qty' => 'required|in:Yes,No',
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No',
+            'is_latest' => 'required|in:Yes,No',
+            'is_trending' => 'required|in:Yes,No',
+            'is_flash_sale' => 'required|in:Yes,No',
+            'is_best_seller' => 'required|in:Yes,No',
+            'is_offer' => 'required|in:Yes,No',
         ];
 
         if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
@@ -218,6 +233,11 @@ class ProductController extends Controller
             $product->sub_category_id = $request->sub_category;
             $product->brand_id = $request->brand;
             $product->is_featured = $request->is_featured;
+            $product->is_latest = $request->is_latest;
+            $product->is_trending = $request->is_trending;
+            $product->is_flash_sale = $request->is_flash_sale;
+            $product->is_best_seller = $request->is_best_seller;
+            $product->is_offer = $request->is_offer;
             $product->related_products = (!empty($request->related_products)) ? implode(',', $request->related_products) : '';
             $product->save();
 
