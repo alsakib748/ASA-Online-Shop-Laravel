@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactEmail;
+use App\Models\Brand;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\User;
@@ -21,7 +22,9 @@ class FrontController extends Controller
 
         $latestProducts = Product::orderBy('id', 'DESC')->where('status', 1)->take(8)->get();
 
-        return view('front.home', compact(['featuredProducts', 'latestProducts']));
+        $brands = Brand::where('status', 1)->where('showHome', 'Yes')->orderBy('name', 'ASC')->get();
+
+        return view('front.home', compact(['featuredProducts', 'latestProducts', 'brands']));
     }
 
     public function addToWishList(Request $request)

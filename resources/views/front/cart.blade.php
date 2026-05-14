@@ -1,96 +1,98 @@
 @extends('front.layouts.app')
 
+@section('title', 'Shopping Cart - ASA Online Shop')
+
 @section('content')
 
-    <section class="section-5 pt-3 pb-3 mb-3 bg-white">
+    <!-- Breadcrumb -->
+    <section class="py-4" style="background: var(--color-gray-50);">
         <div class="container">
-            <div class="light-font">
-                <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
-                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.shop') }}">Shop</a></li>
-                    <li class="breadcrumb-item">Cart</li>
-                </ol>
-            </div>
+            <nav class="breadcrumb-premium">
+                <a href="{{ route('front.home') }}">Home</a>
+                <span>/</span>
+                <a href="{{ route('front.shop') }}">Shop</a>
+                <span>/</span>
+                <span class="current">Cart</span>
+            </nav>
         </div>
     </section>
 
-    <section class=" section-9 pt-4">
+    <!-- Cart Content -->
+    <section class="cart-page">
         <div class="container">
             <div class="row">
-                @if (Session::has('success'))
-                    <div class="col-md-12">
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <!-- Cart Items -->
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    @if (Session::has('success'))
+                        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert"
+                            style="border-radius: var(--radius-lg);">
                             {!! Session::get('success') !!}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                    @endif
 
-                    </div>
-                @endif
-                @if (Session::has('error'))
-                    <div class="col-md-12">
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @if (Session::has('error'))
+                        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert"
+                            style="border-radius: var(--radius-lg);">
                             {{ Session::get('error') }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                    @endif
 
-                    </div>
-                @endif
-
-                @if (Cart::count() > 0)
-                    <div class="col-md-8">
-                        <div class="table-responsive">
-                            <table class="table" id="cart">
+                    @if (Cart::count() > 0)
+                        <div class="cart-table-wrapper">
+                            <table class="cart-table">
                                 <thead>
                                     <tr>
-                                        <th>Item</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        <th>Remove</th>
+                                        <th style="width: 40%;">Product</th>
+                                        <th style="width: 20%;">Price</th>
+                                        <th style="width: 20%;">Quantity</th>
+                                        <th style="width: 15%;">Total</th>
+                                        <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if (!empty($cartContent))
                                         @foreach ($cartContent as $item)
                                             <tr>
-                                                <td class="text-start">
-                                                    <div class="d-flex align-items-center">
-                                                        @if (!empty($item->options->productImage->image))
-                                                            <img
-                                                                src="{{ asset('uploads/product/small/' . $item->options->productImage->image) }}">
-                                                        @else
-                                                            <img src="{{ asset('admin-assets/img/default-150x150.png') }}">
-                                                        @endif
-                                                        <h2>{{ $item->name }}</h2>
-                                                    </div>
-                                                </td>
-                                                <td>৳{{ $item->price }}</td>
                                                 <td>
-                                                    <div class="input-group quantity mx-auto" style="width: 100px;">
-                                                        <div class="input-group-btn">
-                                                            <button class="btn btn-sm btn-dark btn-minus p-2 pt-1 pb-1 sub"
-                                                                data-id="{{ $item->rowId }}">
-                                                                <i class="fa fa-minus"></i>
-                                                            </button>
+                                                    <div class="cart-product">
+                                                        <div class="cart-product-image">
+                                                            @if (!empty($item->options->productImage->image))
+                                                                <img
+                                                                    src="{{ asset('uploads/product/small/' . $item->options->productImage->image) }}">
+                                                            @else
+                                                                <img
+                                                                    src="{{ asset('admin-assets/img/default-150x150.png') }}">
+                                                            @endif
                                                         </div>
-                                                        <input type="text"
-                                                            class="form-control form-control-sm  border-0 text-center"
-                                                            value="{{ $item->qty }}">
-                                                        <div class="input-group-btn">
-                                                            <button class="btn btn-sm btn-dark btn-plus p-2 pt-1 pb-1 add"
-                                                                data-id="{{ $item->rowId }}">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
+                                                        <div class="cart-product-info">
+                                                            <h4>{{ $item->name }}</h4>
+                                                            @if ($item->options->size)
+                                                                <p>Size: {{ $item->options->size }}</p>
+                                                            @endif
+                                                            @if ($item->options->color)
+                                                                <p>Color: {{ $item->options->color }}</p>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td class="cart-price">৳{{ number_format($item->price) }}</td>
                                                 <td>
-                                                    ৳{{ $item->price * $item->qty }}
+                                                    <div class="cart-qty">
+                                                        <button class="sub" data-id="{{ $item->rowId }}"><i
+                                                                class="fas fa-minus"></i></button>
+                                                        <input type="text" value="{{ $item->qty }}" readonly>
+                                                        <button class="add" data-id="{{ $item->rowId }}"><i
+                                                                class="fas fa-plus"></i></button>
+                                                    </div>
                                                 </td>
+                                                <td class="cart-total">৳{{ number_format($item->price * $item->qty) }}</td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-danger"
-                                                        onclick="deleteItem('{{ $item->rowId }}')"><i
-                                                            class="fa fa-times"></i></button>
+                                                    <button class="cart-remove"
+                                                        onclick="deleteItem('{{ $item->rowId }}')">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -98,40 +100,62 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card cart-summery">
-                            <div class="card-body">
-                                <div class="sub-title">
-                                    <h2 class="bg-white">Cart Summery</h3>
-                                </div>
-
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>Subtotal</div>
-                                    <div>৳{{ Cart::subtotal() }}</div>
-                                </div>
-
-                                <div class="pt-2">
-                                    <a href="{{ route('front.checkout') }}" class="btn-dark btn btn-block w-100">Proceed to
-                                        Checkout</a>
-                                </div>
-                            </div>
+                    @else
+                        <div class="empty-cart">
+                            <i class="fas fa-shopping-bag"></i>
+                            <h3>Your cart is empty</h3>
+                            <p>Looks like you haven't added anything to your cart yet.</p>
+                            <a href="{{ route('front.shop') }}" class="btn-primary-premium">
+                                <i class="fas fa-arrow-left me-2"></i> Continue Shopping
+                            </a>
                         </div>
-                        {{-- <div class="input-group apply-coupan mt-4">
-                    <input type="text" placeholder="Coupon Code" class="form-control">
-                    <button class="btn btn-dark" type="button" id="button-addon2">Apply Coupon</button>
-                </div>  --}}
-                    </div>
-                @else
-                    <div class="com-md-12">
-                        <div class="card">
-                            <div class="card-body d-flex justify-content-center align-items-center">
-                                <h4>Your Cart is empty!</h4>
+                    @endif
+                </div>
+
+                <!-- Cart Summary -->
+                @if (Cart::count() > 0)
+                    <div class="col-lg-4">
+                        <div class="cart-summary">
+                            <h3 class="summary-title">Order Summary</h3>
+
+                            <div class="summary-row">
+                                <span>Subtotal ({{ Cart::count() }} items)</span>
+                                <span>৳{{ Cart::subtotal() }}</span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span>Shipping</span>
+                                <span class="text-muted">Calculated at checkout</span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span>Tax</span>
+                                <span class="text-muted">Calculated at checkout</span>
+                            </div>
+
+                            <div class="summary-row total">
+                                <span>Estimated Total</span>
+                                <span>৳{{ Cart::subtotal() }}</span>
+                            </div>
+
+                            <a href="{{ route('front.checkout') }}" class="btn-primary-premium w-100 mt-4"
+                                style="margin-bottom: 30px;">
+                                Proceed to Checkout <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+
+                            <a href="{{ route('front.shop') }}" class="btn-outline-premium w-100 mt-3"
+                                style="text-align: center;">
+                                Continue Shopping
+                            </a>
+
+                            <!-- Coupon -->
+                            <div class="coupon-form">
+                                <input type="text" placeholder="Enter coupon code">
+                                <button type="button">Apply</button>
                             </div>
                         </div>
                     </div>
                 @endif
-
             </div>
         </div>
     </section>
@@ -140,17 +164,19 @@
 
 @section('customJs')
     <script>
+        // Add quantity
         $('.add').click(function() {
-            var qtyElement = $(this).parent().prev(); // Qty Input
+            var qtyElement = $(this).parent().prev();
             var qtyValue = parseInt(qtyElement.val());
             if (qtyValue < 10) {
                 qtyElement.val(qtyValue + 1);
                 var rowId = $(this).data('id');
                 var newQty = qtyElement.val();
+                updateCart(rowId, newQty);
             }
-            updateCart(rowId, newQty);
         });
 
+        // Subtract quantity
         $('.sub').click(function() {
             var qtyElement = $(this).parent().next();
             var qtyValue = parseInt(qtyElement.val());
@@ -158,12 +184,11 @@
                 qtyElement.val(qtyValue - 1);
                 var rowId = $(this).data('id');
                 var newQty = qtyElement.val();
+                updateCart(rowId, newQty);
             }
-            updateCart(rowId, newQty);
         });
 
         function updateCart(rowId, qty) {
-
             $.ajax({
                 url: '{{ route('front.updateCart') }}',
                 type: 'post',
@@ -176,11 +201,10 @@
                     window.location.href = '{{ route('front.cart') }}';
                 }
             });
-
         }
 
         function deleteItem(rowId) {
-            if (confirm("Are you sure you want to delete ?")) {
+            if (confirm("Are you sure you want to remove this item?")) {
                 $.ajax({
                     url: '{{ route('front.deleteItem.cart') }}',
                     type: 'post',

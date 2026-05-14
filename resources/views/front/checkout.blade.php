@@ -1,279 +1,264 @@
 @extends('front.layouts.app')
 
+@section('title', 'Checkout - ASA Online Shop')
+
 @section('content')
-    <section class="section-5 pt-3 pb-3 mb-3 bg-white">
+
+    <!-- Breadcrumb -->
+    <section class="py-4" style="background: var(--color-gray-50);">
         <div class="container">
-            <div class="light-font">
-                <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a class="white-text" href="#">Shop</a></li>
-                    <li class="breadcrumb-item">Checkout</li>
-                </ol>
-            </div>
+            <nav class="breadcrumb-premium">
+                <a href="{{ route('front.home') }}">Home</a>
+                <span>/</span>
+                <a href="{{ route('front.shop') }}">Shop</a>
+                <span>/</span>
+                <a href="{{ route('front.cart') }}">Cart</a>
+                <span>/</span>
+                <span class="current">Checkout</span>
+            </nav>
         </div>
     </section>
 
-    <section class="section-9 pt-4">
+    <!-- Checkout Content -->
+    <section class="checkout-page">
         <div class="container">
-
             <div class="row">
-                <div class="col-md-7">
-                    <div class="sub-title">
-                        <h2>Shipping Address</h2>
-                    </div>
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body checkout-form">
-                            <form action="" method="POST" name="shipping-address" id="shipping-address">
+                <!-- Form Column -->
+                <div class="col-lg-8">
+                    <!-- Shipping Address -->
+                    <div class="checkout-form-card mb-4">
+                        <h3 class="checkout-title">
+                            <i class="fas fa-map-marker-alt"></i> Shipping Address
+                        </h3>
+                        <form action="" method="POST" name="shipping-address" id="shipping-address">
+                            @csrf
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">First Name *</label>
+                                    <input type="text" name="first_name" id="first_name" class="form-input"
+                                        value="{{ !empty($customerAddress) ? $customerAddress->first_name : '' }}">
+                                    <p class="text-danger small mt-1" id="first_name_error"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Last Name *</label>
+                                    <input type="text" name="last_name" id="last_name" class="form-input"
+                                        value="{{ !empty($customerAddress) ? $customerAddress->last_name : '' }}">
+                                    <p class="text-danger small mt-1" id="last_name_error"></p>
+                                </div>
+                            </div>
 
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Email *</label>
+                                    <input type="email" name="email" id="email" class="form-input"
+                                        value="{{ !empty($customerAddress) ? $customerAddress->email : '' }}">
+                                    <p class="text-danger small mt-1" id="email_error"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Mobile *</label>
+                                    <input type="text" name="mobile" id="mobile" class="form-input"
+                                        value="{{ !empty($customerAddress) ? $customerAddress->mobile : '' }}">
+                                    <p class="text-danger small mt-1" id="mobile_error"></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group full">
+                                <label class="form-label">Shipping Area *</label>
+                                <select name="country" id="country" class="form-select">
+                                    <option value="">Select Shipping Area</option>
+                                    @if ($countries->isNotEmpty())
+                                        @foreach ($countries as $country)
+                                            <option
+                                                {{ !empty($customerAddress) && $customerAddress->country_id == $country->id ? 'selected' : '' }}
+                                                value="{{ $country->id }}">{{ $country->name }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                <p class="text-danger small mt-1" id="country_error"></p>
+                            </div>
+
+                            <div class="form-group full">
+                                <label class="form-label">Address *</label>
+                                <textarea name="address" id="address" cols="30" rows="2" class="form-input" placeholder="Street address">{{ !empty($customerAddress) ? $customerAddress->address : '' }}</textarea>
+                                <p class="text-danger small mt-1" id="address_error"></p>
+                            </div>
+
+                            <div class="form-group full">
+                                <label class="form-label">Apartment, suite, etc. (optional)</label>
+                                <input type="text" name="apartment" id="apartment" class="form-input"
+                                    value="{{ !empty($customerAddress) ? $customerAddress->apartment : '' }}">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">City *</label>
+                                    <input type="text" name="city" id="city" class="form-input"
+                                        value="{{ !empty($customerAddress) ? $customerAddress->city : '' }}">
+                                    <p class="text-danger small mt-1" id="city_error"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">State *</label>
+                                    <input type="text" name="state" id="state" class="form-input"
+                                        value="{{ !empty($customerAddress) ? $customerAddress->state : '' }}">
+                                    <p class="text-danger small mt-1" id="state_error"></p>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Zip Code *</label>
+                                    <input type="text" name="zip" id="zip" class="form-input"
+                                        value="{{ !empty($customerAddress) ? $customerAddress->zip : '' }}">
+                                    <p class="text-danger small mt-1" id="zip_error"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Order Notes (optional)</label>
+                                    <input type="text" name="order_notes" id="order_notes" class="form-input"
+                                        placeholder="Special instructions for delivery">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-primary-premium">
+                                Save Address <i class="fas fa-check ms-2"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="checkout-form-card">
+                        <h3 class="checkout-title">
+                            <i class="fas fa-credit-card"></i> Payment Method
+                        </h3>
+
+                        <div class="payment-methods">
+                            <label class="payment-option selected" onclick="selectPayment(this, 'cod')">
+                                <input type="radio" name="payment_method" value="cod" checked>
+                                <span class="payment-radio"></span>
+                                <div class="payment-info">
+                                    <h4>Cash on Delivery</h4>
+                                    <p>Pay when you receive your order</p>
+                                </div>
+                            </label>
+
+                            <label class="payment-option" onclick="selectPayment(this, 'stripe')">
+                                <input type="radio" name="payment_method" value="stripe">
+                                <span class="payment-radio"></span>
+                                <div class="payment-info">
+                                    <h4>Pay with Stripe</h4>
+                                    <p>Secure online payment via Stripe</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        @php
+                            $user_id = Auth::user()->id ?? 0;
+                            $result = \App\Models\CustomerAddress::where('user_id', $user_id)->count();
+                        @endphp
+
+                        @if ($result >= 1)
+                            <form action="{{ route('front.processCheckout') }}" method="POST" name="payment-method"
+                                id="paymentMethodForm">
                                 @csrf
-                                <div class="row">
-
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <input type="text" name="first_name" id="first_name" class="form-control"
-                                                placeholder="First Name"
-                                                value="{{ !empty($customerAddress) ? $customerAddress->first_name : '' }}">
-                                            <p></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <input type="text" name="last_name" id="last_name" class="form-control"
-                                                placeholder="Last Name"
-                                                value="{{ !empty($customerAddress) ? $customerAddress->last_name : '' }}">
-                                            <p></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <input type="text" name="email" id="email" class="form-control"
-                                                placeholder="Email"
-                                                value="{{ !empty($customerAddress) ? $customerAddress->email : '' }}">
-                                            <p></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <select name="country" id="country" class="form-control">
-                                                <option value="">Select a Country</option>
-                                                @if ($countries->isNotEmpty())
-                                                    @foreach ($countries as $country)
-                                                        <option
-                                                            {{ !empty($customerAddress) && $customerAddress->country_id == $country->id ? 'selected' : '' }}
-                                                            value="{{ $country->id }}">{{ $country->name }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            <p></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <textarea name="address" id="address" cols="30" rows="3" placeholder="Address" class="form-control">{{ !empty($customerAddress) ? $customerAddress->address : '' }}</textarea>
-                                            <p></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <input type="text" name="apartment" id="apartment" class="form-control"
-                                                placeholder="Apartment, suite, unit, etc. (optional)"
-                                                value="{{ !empty($customerAddress) ? $customerAddress->apartment : '' }}">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <input type="text" name="city" id="city" class="form-control"
-                                                placeholder="City"
-                                                value="{{ !empty($customerAddress) ? $customerAddress->city : '' }}">
-                                            <p></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <input type="text" name="state" id="state" class="form-control"
-                                                placeholder="State"
-                                                value="{{ !empty($customerAddress) ? $customerAddress->state : '' }}">
-                                            <p></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <input type="text" name="zip" id="zip" class="form-control"
-                                                placeholder="Zip"
-                                                value="{{ !empty($customerAddress) ? $customerAddress->zip : '' }}">
-                                            <p></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <input type="text" name="mobile" id="mobile" class="form-control"
-                                                placeholder="Mobile No."
-                                                value="{{ !empty($customerAddress) ? $customerAddress->mobile : '' }}">
-                                            <p></p>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <textarea name="order_notes" id="order_notes" cols="30" rows="2" placeholder="Order Notes (optional)"
-                                                class="form-control"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="pt-4">
-                                        <button type="submit" class="btn-dark btn btn-block w-100">Submit Shipping
-                                            Address</button>
-                                    </div>
-
-                                </div>
+                                <input type="hidden" name="payment_method" value="cod">
+                                <button type="submit" class="btn-primary-premium w-100 mt-4">
+                                    <i class="fas fa-lock me-2"></i> Place Order
+                                </button>
                             </form>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="sub-title">
-                        <h2>Order Summery</h3>
-                    </div>
-                    <div class="card cart-summery">
-                        <div class="card-body">
-                            @foreach (Cart::content() as $item)
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div class="h6">{{ $item->name }} X {{ $item->qty }}</div>
-                                    <div class="h6">৳{{ $item->price * $item->qty }}</div>
-                                </div>
-                            @endforeach
-
-                            <div class="d-flex justify-content-between summery-end">
-                                <div class="h6"><strong>Subtotal</strong></div>
-                                <div class="h6"><strong>৳{{ Cart::subtotal() }}</strong></div>
-                            </div>
-                            <div class="d-flex justify-content-between summery-end">
-                                <div class="h6"><strong>Discount</strong></div>
-                                <div class="h6"><strong id="discount_value">৳{{ $discount }}</strong></div>
-                            </div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div class="h6"><strong>Shipping</strong></div>
-                                <div class="h6"><strong
-                                        id="shippingAmount">৳{{ number_format($totalShippingCharge, 2) }}</strong>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between mt-2 summery-end">
-                                <div class="h5"><strong>Total</strong></div>
-                                <div class="h5"><strong id="grandTotal">৳{{ number_format($grandTotal, 2) }}</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="input-group apply-coupan mt-4">
-                        <input type="text" id="discount_code" name="discount_code" class="form-control"
-                            placeholder="Coupon Code" />
-                        <button class="btn btn-dark" type="button" name="apply-discount" id="apply-discount">Apply
-                            Coupon</button>
-                    </div>
-
-                    <div id="discount-response-wrapper">
-                        @if (Session::has('code'))
-                            <div class="mt-4" id="discount-response">
-                                <strong>{{ Session::get('code')->code }}</strong>
-                                <a href="" id="remove-discount" class="btn btn-sm btn-danger"><i
-                                        class="fa fa-times"></i></a>
+                        @else
+                            <div class="alert alert-warning mt-4" style="border-radius: var(--radius-lg);">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Please save your shipping address first before placing an order.
                             </div>
                         @endif
                     </div>
+                </div>
 
-                    <div class="card payment-form ">
-                        <h3 class="card-title h5 mb-3 text-center">Payment Method</h3>
+                <!-- Order Summary -->
+                <div class="col-lg-4">
+                    <div class="order-summary">
+                        <h3 class="summary-title">Order Summary</h3>
 
-                        {{-- <div class="">
-                                <button type="submit" class="btn btn-dark btn-block w-100">Cash On Delivery</button> <br/><br/>
-                                <button type="submit" class="btn btn-dark btn-block w-100"><a href="#" class="text-light">Pay With Stripe</a></button>
-                            </div> --}}
-
-                        <div class="card-body">
-                            <form action="{{ route('front.processCheckout') }}" method="POST" name="payment-method"
-                                id="payment-method">
-                                @csrf
-                                <div class="d-md-flex align-items-md-center justify-content-md-evenly">
-                                    <div class="">
-                                        <input checked type="radio" name="payment_method" class=""
-                                            value="cod" id="payment_method_one">
-                                        <label for="payment_method_one" class="form-check-label">COD</label>
-                                    </div>
-
-                                    <div class="">
-                                        <input type="radio" name="payment_method" class="" value="stripe"
-                                            id="payment_method_two">
-                                        <label for="payment_method_two" class="form-check-label">Stripe</label>
-                                    </div>
-                                </div>
-
-                                <div class="pt-4">
-
-                                    {{-- <button type="submit" class="btn-dark btn btn-block w-100">Pay Now</button> --}}
-                                    @php
-                                        $user_id = Auth::user()->id;
-                                        $result = App\Models\CustomerAddress::where('user_id', $user_id)->count();
-                                    @endphp
-
-                                    @if ($result == 1)
-                                        <button type="submit" class="btn-dark btn btn-block w-100">Pay Now</button>
+                        @foreach (Cart::content() as $item)
+                            <div class="summary-product">
+                                <div class="summary-product-image">
+                                    @if (!empty($item->options->productImage->image))
+                                        <img
+                                            src="{{ asset('uploads/product/small/' . $item->options->productImage->image) }}">
                                     @else
-                                        <button type="button" disabled class="btn-dark btn btn-block w-100">Pay
-                                            Now</button>
+                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}">
                                     @endif
-
-
                                 </div>
+                                <div class="summary-product-info">
+                                    <h4>{{ $item->name }}</h4>
+                                    <p>Qty: {{ $item->qty }}</p>
+                                </div>
+                                <div class="summary-product-price">৳{{ number_format($item->price * $item->qty) }}</div>
+                            </div>
+                        @endforeach
 
-                            </form>
+                        <hr style="border-color: var(--color-gray-200);">
+
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span>৳{{ Cart::subtotal() }}</span>
                         </div>
 
+                        <div class="summary-row">
+                            <span>Discount</span>
+                            <span class="text-success">-৳{{ $discount }}</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="shippingAmount">৳{{ number_format($totalShippingCharge, 2) }}</span>
+                        </div>
+
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="grandTotal">৳{{ number_format($grandTotal, 2) }}</span>
+                        </div>
+
+                        <!-- Coupon -->
+                        <div class="coupon-form">
+                            <input type="text" id="discount_code" name="discount_code" placeholder="Coupon code">
+                            <button type="button" id="apply-discount">Apply</button>
+                        </div>
+
+                        <div id="discount-response-wrapper">
+                            @if (Session::has('code'))
+                                <div class="mt-3 p-2"
+                                    style="background: var(--color-gray-50); border-radius: var(--radius-md);"
+                                    id="discount-response">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-semibold">{{ Session::get('code')->code }}</span>
+                                        <a href="" id="remove-discount" class="text-danger">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                     </div>
-
-                    <!-- CREDIT CARD FORM ENDS HERE -->
-
                 </div>
             </div>
-
         </div>
     </section>
+
 @endsection
 
 @section('customJs')
     <script>
-        $("#payment_method_one").click(function() {
-            if ($(this).is(':checked') == true) {
-                $("#card-payment-form").addClass("d-none");
-            }
-        });
-
-        $("#payment_method_two").click(function() {
-            if ($(this).is(':checked') == true) {
-                $("#card-payment-form").removeClass("d-none");
-            }
-        });
-
-        // $.ajaxSetup({
-        //     headers: {
-        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //     }
-        // });
+        // Payment selection
+        function selectPayment(element, value) {
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            document.querySelector('input[name="payment_method"]').value = value;
+            document.querySelector('#paymentMethodForm input[name="payment_method"]').value = value;
+        }
 
         $(document).ready(function() {
-
+            // Apply discount
             $("#apply-discount").click(function() {
-
                 $.ajax({
                     url: "{{ route('front.applyDiscount') }}",
                     type: 'post',
@@ -284,20 +269,18 @@
                     dataType: 'json',
                     success: function(response) {
                         if (response.status == true) {
-                            $("#shippingAmount").html('$' + response.shippingCharge);
-                            $("#grandTotal").html('$' + response.grandTotal);
-                            $("#discount_value").html('$' + response.discount);
+                            $("#shippingAmount").html('৳' + response.shippingCharge);
+                            $("#grandTotal").html('৳' + response.grandTotal);
                             $("#discount-response-wrapper").html(response.discountString);
                         } else {
                             $("#discount-response-wrapper").html("<span class='text-danger'>" +
-                                response
-                                .message + "</span>");
+                                response.message + "</span>");
                         }
                     }
                 });
-
             });
 
+            // Country change - update order summary
             $("#country").change(function() {
                 $.ajax({
                     url: '{{ route('front.getOrderSummery') }}',
@@ -308,17 +291,16 @@
                     dataType: 'json',
                     success: function(response) {
                         if (response.status == true) {
-                            $("#shippingAmount").html('$' + response.shippingCharge);
-                            $("#grandTotal").html('$' + response.grandTotal);
+                            $("#shippingAmount").html('৳' + response.shippingCharge);
+                            $("#grandTotal").html('৳' + response.grandTotal);
                         }
                     }
                 });
             });
 
+            // Shipping address form
             $("#shipping-address").submit(function(event) {
-
                 event.preventDefault();
-
                 $('button[type="submit"]').prop("disabled", true);
 
                 $.ajax({
@@ -327,104 +309,59 @@
                     data: $(this).serializeArray(),
                     dataType: 'json',
                     success: function(response) {
-                        var errors = response.errors;
-
                         $('button[type="submit"]').prop("disabled", false);
 
+                        // Clear previous errors
+                        $('.text-danger').html('');
+                        $('.form-input').removeClass('is-invalid');
+
                         if (response.status == false) {
+                            var errors = response.errors;
+
                             if (errors.first_name) {
-                                $("#first_name").addClass("is-invalid").siblings("p")
-                                    .addClass(
-                                        "invalid-feedback").html(errors.first_name);
-                            } else {
-                                $("#first_name").removeClass("is-invalid").siblings("p")
-                                    .removeClass(
-                                        "invalid-feedback").html('');
+                                $("#first_name").addClass("is-invalid");
+                                $("#first_name_error").html(errors.first_name);
                             }
-
                             if (errors.last_name) {
-                                $("#last_name").addClass("is-invalid").siblings("p")
-                                    .addClass(
-                                        "invalid-feedback").html(errors.last_name);
-                            } else {
-                                $("#last_name").removeClass("is-invalid").siblings("p")
-                                    .removeClass(
-                                        "invalid-feedback").html('');
+                                $("#last_name").addClass("is-invalid");
+                                $("#last_name_error").html(errors.last_name);
                             }
-
                             if (errors.email) {
-                                $("#email").addClass("is-invalid").siblings("p").addClass(
-                                    "invalid-feedback").html(errors.email);
-                            } else {
-                                $("#email").removeClass("is-invalid").siblings("p")
-                                    .removeClass(
-                                        "invalid-feedback").html('');
+                                $("#email").addClass("is-invalid");
+                                $("#email_error").html(errors.email);
                             }
-
                             if (errors.country) {
-                                $("#country").addClass("is-invalid").siblings("p").addClass(
-                                    "invalid-feedback").html(errors.country);
-                            } else {
-                                $("#country").removeClass("is-invalid").siblings("p")
-                                    .removeClass(
-                                        "invalid-feedback").html('');
+                                $("#country").addClass("is-invalid");
+                                $("#country_error").html(errors.country);
                             }
-
                             if (errors.address) {
-                                $("#address").addClass("is-invalid").siblings("p").addClass(
-                                    "invalid-feedback").html(errors.address);
-                            } else {
-                                $("#address").removeClass("is-invalid").siblings("p")
-                                    .removeClass(
-                                        "invalid-feedback").html('');
+                                $("#address").addClass("is-invalid");
+                                $("#address_error").html(errors.address);
                             }
-
                             if (errors.state) {
-                                $("#state").addClass("is-invalid").siblings("p").addClass(
-                                    "invalid-feedback").html(errors.state);
-                            } else {
-                                $("#state").removeClass("is-invalid").siblings("p")
-                                    .removeClass(
-                                        "invalid-feedback").html('');
+                                $("#state").addClass("is-invalid");
+                                $("#state_error").html(errors.state);
                             }
-
                             if (errors.city) {
-                                $("#city").addClass("is-invalid").siblings("p").addClass(
-                                        "invalid-feedback")
-                                    .html(errors.city);
-                            } else {
-                                $("#city").removeClass("is-invalid").siblings("p")
-                                    .removeClass(
-                                        "invalid-feedback").html('');
+                                $("#city").addClass("is-invalid");
+                                $("#city_error").html(errors.city);
                             }
-
                             if (errors.zip) {
-                                $("#zip").addClass("is-invalid").siblings("p").addClass(
-                                        "invalid-feedback")
-                                    .html(errors.zip);
-                            } else {
-                                $("#zip").removeClass("is-invalid").siblings("p")
-                                    .removeClass(
-                                        "invalid-feedback").html('');
+                                $("#zip").addClass("is-invalid");
+                                $("#zip_error").html(errors.zip);
                             }
-
                             if (errors.mobile) {
-                                $("#mobile").addClass("is-invalid").siblings("p").addClass(
-                                    "invalid-feedback").html(errors.mobile);
-                            } else {
-                                $("#mobile").removeClass("is-invalid").siblings("p")
-                                    .removeClass(
-                                        "invalid-feedback").html('');
+                                $("#mobile").addClass("is-invalid");
+                                $("#mobile_error").html(errors.mobile);
                             }
-
                         } else {
                             window.location.href = "{{ route('front.checkout') }}";
                         }
-
                     }
                 });
             });
 
+            // Remove discount
             $('body').on('click', '#remove-discount', function() {
                 $.ajax({
                     url: "{{ route('front.removeCoupon') }}",
@@ -435,16 +372,15 @@
                     dataType: 'json',
                     success: function(response) {
                         if (response.status == true) {
-                            $("#shippingAmount").html('$' + response.shippingCharge);
-                            $("#grandTotal").html('$' + response.grandTotal);
-                            $("#discount_value").html('$' + response.discount);
-                            $("#discount-response").html(' ');
+                            $("#shippingAmount").html('৳' + response.shippingCharge);
+                            $("#grandTotal").html('৳' + response.grandTotal);
+                            $("#discount-response-wrapper").html('');
                             $("#discount_code").val('');
                         }
                     }
                 });
+                return false;
             });
-
         });
     </script>
 @endsection

@@ -1,285 +1,428 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en_AU" />
+<html class="no-js" lang="en_AU">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>ASA Online Shop</title>
-    <meta name="description" content="" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no" />
-
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="pinterest" content="nopin" />
+    <title>@yield('title', 'ASA Online Shop')</title>
+    <meta name="description" content="Premium Online Shopping Experience" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <meta property="og:locale" content="en_AU" />
     <meta property="og:type" content="website" />
-    <meta property="fb:admins" content="" />
-    <meta property="fb:app_id" content="" />
-    <meta property="og:site_name" content="" />
-    <meta property="og:title" content="" />
-    <meta property="og:description" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:width" content="" />
-    <meta property="og:image:height" content="" />
-    <meta property="og:image:alt" content="" />
+    <meta property="og:title" content="@yield('title', 'ASA Online Shop')" />
+    <meta property="og:description" content="Premium Online Shopping Experience" />
 
-    <meta name="twitter:title" content="" />
-    <meta name="twitter:site" content="" />
-    <meta name="twitter:description" content="" />
-    <meta name="twitter:image" content="" />
-    <meta name="twitter:image:alt" content="" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-
-    <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/slick.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/slick-theme.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/ion.rangeSlider.min.css') }}" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"
-        integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/style.css') }}" />
+    <!-- Premium CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/premium.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/custom.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/ion.rangeSlider.min.css') }}" />
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&family=Raleway:ital,wght@0,400;0,600;0,800;1,200&family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;700;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-
-    <!-- Fav Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="#" />
-
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
+    <style>
+        :root {
+            --color-primary: #1a1a1a;
+            --color-accent: #3b82f6;
+            --color-gray-50: #f9fafb;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-400: #9ca3af;
+            --color-gray-500: #6b7280;
+            --color-gray-600: #4b5563;
+            --color-gray-700: #374151;
+            --color-gray-800: #1f2937;
+            --color-gray-900: #111827;
+            --color-white: #ffffff;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+            --color-sale: #dc2626;
+            --radius-lg: 10px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+            --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--color-gray-700);
+            background-color: var(--color-gray-50);
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+    </style>
 </head>
 
 <body data-instant-intensity="mousedown">
 
-    <div class="bg-light top-header">
+    <!-- Top Bar -->
+    <div class="bg-dark py-2 d-none d-md-block">
         <div class="container">
-            <div class="row align-items-center py-3 d-none d-lg-flex justify-content-between">
-                <div class="col-lg-4 logo">
-                    <a href="{{ route('front.home') }}" class="text-decoration-none">
-                        <span class="h2 text-uppercase text-info bg-dark px-2">ASA</span>
-                        <span class="h2 text-uppercase text-primary bg-dark px-2">Online</span>
-                        <span class="h2 text-uppercase text-dark bg-primary px-2 ml-n1">SHOP</span>
-                    </a>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span class="text-white-50 small">
+                        <i class="fas fa-phone me-2"></i>Need help? Call us: +880 1234 567890
+                    </span>
                 </div>
-                <div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
-                    @if (Auth::check())
-                        <a href="{{ route('dashboard') }}" class="nav-link text-white btn btn-primary btn-sm border-0"
-                            style="margin-right: 5px">My Account</a>
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="nav-link text-dark btn btn-info btn-sm shadow-none border-0"
-                            style="margin-right: 5px">Login</a>
-                        <a href="{{ route('register') }}"
-                            class="nav-link text-dark btn btn-warning btn-sm shadow-none border-0"
-                            style="margin-right: 5px">Register</a>
-                    @endif
-
-                    <form action="{{ route('front.shop') }}" method="GET">
-                        <div class="input-group">
-                            <input value="{{ Request::get('search') }}" type="text"
-                                placeholder="Search For Products" class="form-control" name="search"
-                                id="search">
-                            <button type="submit" class="input-group-text">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
+                <div class="col-md-6 text-end">
+                    <div class="d-inline-flex gap-3">
+                        <a href="#" class="text-white-50 small text-decoration-none"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white-50 small text-decoration-none"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white-50 small text-decoration-none"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white-50 small text-decoration-none"><i
+                                class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <header class="bg-dark">
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm sticky-top">
         <div class="container">
-            <nav class="navbar navbar-expand-xl" id="navbar">
-                <a href="{{ route('front.home') }}" class="text-decoration-none mobile-logo">
-                    <span class="h2 text-uppercase text-primary bg-dark">Online</span>
-                    <span class="h2 text-uppercase text-white px-2">SHOP</span>
-                </a>
-                <button class="navbar-toggler menu-btn" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <!-- <span class="navbar-toggler-icon icon-menu"></span> -->
-                    <i class="navbar-toggler-icon fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <!-- <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="index.php" title="Products">Home</a>
-        </li> -->
-                        @if (getCategories()->isNotEmpty())
-                            @foreach (getCategories() as $category)
-                                <li class="nav-item dropdown">
-                                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        {{ $category->name }}
-                                    </button>
-                                    @if ($category->sub_category->isNotEmpty())
-                                        <ul class="dropdown-menu dropdown-menu-dark">
-                                            @foreach ($category->sub_category as $subCategory)
-                                                <li><a class="dropdown-item nav-link"
-                                                        href="{{ route('front.shop', [$category->slug, $subCategory->slug]) }}">{{ $subCategory->name }}</a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </li>
-                            @endforeach
-                        @endif
-                        <li><a class="dropdown-item nav-link" href="/shop">Shop</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="right-nav py-0">
-                    <a href="{{ route('front.cart') }}" class="ml-3 d-flex pt-2">
-                        <i class="fas fa-shopping-cart text-primary"></i>
+            <div class="row align-items-center py-3">
+                <!-- Logo -->
+                <div class="col-6 col-lg-2">
+                    <a href="{{ route('front.home') }}" class="text-decoration-none">
+                        <span class="h3 fw-bold text-dark">ASA <span class="text-primary">Shop</span></span>
                     </a>
                 </div>
-            </nav>
-        </div>
-    </header>
 
-
-    {{-- Main Content  --}}
-    <main>
-        @yield('content')
-    </main>
-
-    <footer class="bg-dark mt-5">
-        <div class="container pb-5 pt-3">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="footer-card">
-                        <h3>Get In Touch</h3>
-                        <p>No dolore ipsum accusam no lorem. <br>
-                            123 Street, New York, USA <br>
-                            exampl@example.com <br>
-                            000 000 0000</p>
-                    </div>
+                <!-- Search Bar -->
+                <div class="col-12 col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0">
+                    <form action="{{ route('front.shop') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" value="{{ Request::get('search') }}"
+                                placeholder="Search for products, brands..." name="search"
+                                class="form-control border-secondary"
+                                style="border-radius: var(--radius-lg) 0 0 var(--radius-lg);">
+                            <button type="submit" class="btn btn-dark px-4"
+                                style="border-radius: 0 var(--radius-lg) var(--radius-lg) 0;">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="footer-card">
-                        <h3>Important Links</h3>
-                        <ul>
-                            @if (staticPages()->isNotEmpty())
-                                @foreach (staticPages() as $page)
-                                    <li><a href="{{ route('front.page', $page->slug) }}"
-                                            title="{{ $page->name }}">{{ $page->name }}</a></li>
-                                @endforeach
+                <!-- Header Actions -->
+                <div class="col-6 col-lg-4 text-end order-1 order-lg-2">
+                    <div class="d-flex justify-content-end align-items-center gap-2 gap-lg-3">
+                        <!-- Account -->
+                        @if (Auth::check())
+                            <a href="{{ route('dashboard') }}"
+                                class="btn btn-outline-dark btn-sm d-none d-lg-inline-block">
+                                <i class="fas fa-user me-1"></i> My Account
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-outline-dark btn-sm d-none d-lg-inline-block">
+                                <i class="fas fa-sign-in-alt me-1"></i> Sign In
+                            </a>
+                        @endif
+
+                        <!-- Wishlist -->
+                        <a href="{{ route('front.wishlist') }}" class="btn btn-outline-secondary position-relative p-2">
+                            <i class="far fa-heart"></i>
+                            @php $wishlistCount = \App\Models\Wishlist::where('user_id', Auth::id())->count() ?? 0 @endphp
+                            @if ($wishlistCount > 0)
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="font-size: 10px;">
+                                    {{ $wishlistCount }}
+                                </span>
                             @endif
-                            {{-- <li><a href="about-us.php" title="About">About</a></li>
-                            <li><a href="contact-us.php" title="Contact Us">Contact Us</a></li>
-                            <li><a href="#" title="Privacy">Privacy</a></li>
-                            <li><a href="#" title="Privacy">Terms & Conditions</a></li>
-                            <li><a href="#" title="Privacy">Refund Policy</a></li> --}}
-                        </ul>
-                    </div>
-                </div>
+                        </a>
 
-                <div class="col-md-4">
-                    <div class="footer-card">
-                        <h3>My Account</h3>
-                        <ul>
-                            <li><a href="#" title="Sell">Login</a></li>
-                            <li><a href="#" title="Advertise">Register</a></li>
-                            <li><a href="#" title="Contact Us">My Orders</a></li>
-                        </ul>
+                        <!-- Cart -->
+                        <a href="{{ route('front.cart') }}" class="btn btn-outline-secondary position-relative p-2">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                style="font-size: 10px;">
+                                {{ Cart::count() }}
+                            </span>
+                        </a>
+
+                        <!-- Mobile Menu Toggle -->
+                        <button class="btn btn-dark d-lg-none p-2" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#mobileMenu">
+                            <i class="fas fa-bars"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="copyright-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 mt-3">
-                        <div class="copy-right text-center">
-                            <p>© Copyright 2022 Amazing Shop. All Rights Reserved</p>
-                        </div>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="premium-nav bg-dark">
+        <div class="container">
+            <div class="d-none d-lg-flex align-items-center">
+                <!-- Main Menu -->
+                <ul class="navbar-nav me-auto mb-0">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('front.home') }}">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
+
+                    @if (getCategories()->isNotEmpty())
+                        @foreach (getCategories() as $category)
+                            <li class="nav-item has-submenu">
+                                <a class="nav-link text-white" href="{{ route('front.shop', $category->slug) }}">
+                                    {{ $category->name }}
+                                    @if ($category->sub_category->isNotEmpty())
+                                        <i class="fas fa-chevron-down ms-1 chevron-icon"></i>
+                                    @endif
+                                </a>
+                                @if ($category->sub_category->isNotEmpty())
+                                    <ul class="dropdown-menu dropdown-menu-dark submenu">
+                                        @foreach ($category->sub_category as $subCategory)
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('front.shop', [$category->slug, $subCategory->slug]) }}">
+                                                    {{ $subCategory->name }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
+                    @endif
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('front.shop') }}">Shop</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Offcanvas Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header bg-dark">
+            <h5 class="offcanvas-title text-white">Menu</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body bg-dark">
+            <!-- Mobile Search -->
+            <form action="{{ route('front.shop') }}" method="GET" class="mb-3">
+                <div class="input-group">
+                    <input type="text" value="{{ Request::get('search') }}" placeholder="Search products..."
+                        name="search" class="form-control">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Mobile Menu Items -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ route('front.home') }}">
+                        <i class="fas fa-home me-2"></i> Home
+                    </a>
+                </li>
+
+                @if (getCategories()->isNotEmpty())
+                    @foreach (getCategories() as $category)
+                        <li class="nav-item">
+                            <a class="nav-link text-white" data-bs-toggle="collapse"
+                                href="#mobileSubmenu{{ $category->id }}" role="button">
+                                {{ $category->name }}
+                                @if ($category->sub_category->isNotEmpty())
+                                    <i class="fas fa-chevron-down float-end"></i>
+                                @endif
+                            </a>
+                            @if ($category->sub_category->isNotEmpty())
+                                <div class="collapse" id="mobileSubmenu{{ $category->id }}">
+                                    <ul class="list-unstyled ps-3 border-start border-secondary">
+                                        @foreach ($category->sub_category as $subCategory)
+                                            <li>
+                                                <a class="nav-link text-white-50"
+                                                    href="{{ route('front.shop', [$category->slug, $subCategory->slug]) }}">
+                                                    {{ $subCategory->name }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </li>
+                    @endforeach
+                @endif
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ route('front.shop') }}">Shop</a>
+                </li>
+
+                @if (!Auth::check())
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('login') }}">
+                            <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                        </a>
+                    </li>
+                @endif
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        @yield('content')
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-3">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <!-- Brand -->
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="fw-bold mb-3"><span class="text-light">ASA</span> <span
+                            class="text-primary">Shop</span></h4>
+                    <p class="text-white-50 small mb-3">Your premier destination for quality products. We offer the
+                        best selection with fast shipping.</p>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-secondary btn-sm"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-secondary btn-sm"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-secondary btn-sm"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-secondary btn-sm"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-3 text-light">Shop</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ route('front.shop') }}" class="text-white-50 text-decoration-none small">All
+                                Products</a></li>
+                        <li><a href="{{ route('front.shop') }}?sort=latest"
+                                class="text-white-50 text-decoration-none small">New Arrivals</a></li>
+                        @if (getCategories()->isNotEmpty())
+                            @foreach (getCategories()->take(4) as $category)
+                                <li><a href="{{ route('front.shop', $category->slug) }}"
+                                        class="text-white-50 text-decoration-none small">{{ $category->name }}</a>
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+
+                <!-- Customer Service -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-3 text-light">Customer Service</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ route('front.page', 'contact-us') }}"
+                                class="text-white-50 text-decoration-none small">Contact Us</a></li>
+                        <li><a href="{{ route('front.page', 'shipping-policy') }}"
+                                class="text-white-50 text-decoration-none small">Shipping Info</a></li>
+                        <li><a href="{{ route('front.page', 'return-policy') }}"
+                                class="text-white-50 text-decoration-none small">Returns & Exchanges</a></li>
+                        <li><a href="{{ route('front.page', 'faq') }}"
+                                class="text-white-50 text-decoration-none small">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- My Account -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-3 text-light">My Account</h6>
+                    <ul class="list-unstyled">
+                        @if (Auth::check())
+                            <li><a href="{{ route('dashboard') }}"
+                                    class="text-white-50 text-decoration-none small">Dashboard</a></li>
+                            <li><a href="{{ route('front.orders') }}"
+                                    class="text-white-50 text-decoration-none small">My Orders</a></li>
+                            <li><a href="{{ route('front.wishlist') }}"
+                                    class="text-white-50 text-decoration-none small">Wishlist</a></li>
+                        @else
+                            <li><a href="{{ route('login') }}" class="text-white-50 text-decoration-none small">Sign
+                                    In</a></li>
+                            <li><a href="{{ route('register') }}"
+                                    class="text-white-50 text-decoration-none small">Register</a></li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="border-secondary">
+
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="small text-white-50 mb-0">&copy; {{ date('Y') }} ASA Online Shop. All rights
+                        reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="d-flex justify-content-center justify-content-md-end gap-3">
+                        <i class="fab fa-cc-visa fs-4 text-white-50"></i>
+                        <i class="fab fa-cc-mastercard fs-4 text-white-50"></i>
+                        <i class="fab fa-cc-amex fs-4 text-white-50"></i>
+                        <i class="fab fa-cc-paypal fs-4 text-white-50"></i>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Button trigger modal -->
-    {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
-    </button> --}}
-
-    <!-- Modal -->
-    <div class="modal fade" id="wishlistModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <!-- Wishlist Modal -->
+    <div class="modal fade" id="wishlistModal" tabindex="-1" aria-labelledby="wishlistModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Success</h1>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: var(--radius-xl);">
+                <div class="modal-header border-0">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="modal-body text-center pb-5">
+                    <div class="mb-3">
+                        <i class="fas fa-check-circle fs-1 text-success"></i>
+                    </div>
+                    <h5 class="mb-2">Success!</h5>
+                    <p class="text-muted mb-0" id="wishlistMessage"></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="{{ asset('front-assets/js/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('front-assets/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
-    <script src="{{ asset('front-assets/js/instantpages.5.1.0.min.js') }}"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="{{ asset('front-assets/js/lazyload.17.6.0.min.js') }}"></script>
-    <script src="{{ asset('front-assets/js/slick.min.js') }}"></script>
-    <script src="{{ asset('front-assets/js/ion.rangeSlider.min.js') }}"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
-        integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"
-        integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.js"
-        integrity="sha512-hRhHH3+D9xVKPpodEiYzHWIG8CWbCjp7LCdZ00K3/6xsdC3iT0OlPJLIwxSMEl07gya1Ae8iAqXjMMLpzqqh0w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
-        integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
-        integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <script src="{{ asset('front-assets/js/custom.js') }}"></script>
 
     <script>
-        window.onscroll = function() {
-            myFunction()
-        };
-
-        var navbar = document.getElementById("navbar");
-        var sticky = navbar.offsetTop;
-
-        function myFunction() {
-            if (window.pageYOffset >= sticky) {
-                navbar.classList.add("sticky")
-            } else {
-                navbar.classList.remove("sticky");
-            }
-        }
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr("content")
@@ -287,7 +430,6 @@
         });
 
         function addToCart(id) {
-
             $.ajax({
                 url: '{{ route('front.addToCart') }}',
                 method: 'POST',
@@ -303,7 +445,30 @@
                     }
                 }
             });
+        }
 
+        function quickAddToCart(id) {
+            $.ajax({
+                url: '{{ route('front.addToCart') }}',
+                method: 'POST',
+                data: {
+                    id: id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == true) {
+                        // Update cart badge
+                        const cartLink = document.querySelector('a[href="{{ route('front.cart') }}"]');
+                        const badge = cartLink.querySelector('.badge');
+                        if (badge) {
+                            badge.textContent = parseInt(badge.textContent) + 1;
+                        }
+                        alert('Product added to cart!');
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
         }
 
         function addToWishList(id) {
@@ -316,7 +481,7 @@
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == true) {
-                        $("#wishlistModal .modal-body").html(response.message);
+                        $("#wishlistMessage").html(response.message);
                         $("#wishlistModal").modal("show");
                     } else {
                         window.location.href = "{{ route('login') }}";

@@ -1,7 +1,185 @@
+/* ========================================
+   Custom Styles
+   ======================================== */
+
 .error {
     border-color: red !important;
 }
 
-.login-form{
+.login-form {
     background-image: url('front-assets/front/login-ecommerce.jpg');
+}
+
+/* ========================================
+   Pagination
+   ======================================== */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 0;
+    flex-wrap: wrap;
+}
+
+.pagination .page-item {
+    list-style: none;
+}
+
+.pagination .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border: none;
+    border-radius: 10px;
+    background: #f3f4f6;
+    color: #374151;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.pagination .page-link:hover {
+    background: #e5e7eb;
+    color: #1a1a1a;
+}
+
+.pagination .page-item.active .page-link {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+    background: #f3f4f6;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   Alerts
+   ======================================== */
+
+.alert {
+    border: none;
+    border-radius: 12px;
+    padding: 16px 20px;
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #065f46;
+    border-left: 4px solid #10b981;
+}
+
+.alert-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: #92400e;
+    border-left: 4px solid #f59e0b;
+}
+
+.alert-info {
+    background: rgba(59, 130, 246, 0.1);
+    color: #1e40af;
+    border-left: 4px solid #3b82f6;
+}
+
+/* ========================================
+   Accordion
+   ======================================== */
+
+.accordion-button {
+    font-weight: 600;
+    color: #1a1a1a;
+    background: transparent;
+    padding: 12px;
+    border-radius: 10px 10px 0 0;
+}
+
+.accordion-button:not(.collapsed) {
+    background: #f9fafb;
+    color: #1a1a1a;
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: #d1d5db;
+}
+
+.accordion-body {
+    padding: 12px;
+    border-top: 1px solid #f3f4f6;
+}
+
+/* ========================================
+   Responsive Adjustments
+   ======================================== */
+
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1.25rem;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .product-detail-title {
+        font-size: 1.25rem;
+    }
+
+    .price-lg {
+        font-size: 1.5rem;
+    }
+
+    .btn-primary-premium,
+    .btn-outline-premium {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .checkout-title {
+        font-size: 16px;
+    }
+
+    .product-info {
+        padding: 10px;
+    }
+
+    .product-title {
+        font-size: 12px;
+    }
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+    .navbar,
+    footer,
+    .product-actions-overlay,
+    .wishlist-btn,
+    .detail-actions,
+    .hero-carousel {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+    }
+
+    .product-card {
+        box-shadow: none;
+        border: 1px solid #e5e7eb;
+    }
 }

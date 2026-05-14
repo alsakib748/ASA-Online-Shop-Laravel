@@ -1,79 +1,84 @@
 @extends('front.layouts.app')
 
+@section('title', 'My Orders - ASA Online Shop')
+
 @section('content')
 
-    <section class="section-5 pt-3 pb-3 mb-3 bg-white">
+    <!-- Breadcrumb -->
+    <section class="py-4" style="background: var(--color-gray-50);">
         <div class="container">
-            <div class="light-font">
-                <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('dashboard') }}">My Account</a></li>
-                    <li class="breadcrumb-item">My Orders</li>
-                </ol>
-            </div>
+            <nav class="breadcrumb-premium">
+                <a href="{{ route('front.home') }}">Home</a>
+                <span>/</span>
+                <a href="{{ route('dashboard') }}">My Account</a>
+                <span>/</span>
+                <span class="current">Orders</span>
+            </nav>
         </div>
     </section>
 
-    <section class=" section-11 ">
-        <div class="container  mt-5">
+    <!-- Orders Content -->
+    <section class="py-5">
+        <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-lg-3 mb-4 mb-lg-0">
                     @include('front.common.sidebar')
                 </div>
-                <div class="col-md-9">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="h5 mb-0 pt-2 pb-2">My Orders</h2>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Orders #</th>
-                                            <th>Date Purchased</th>
-                                            <th>Status</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if ($orders->isNotEmpty())
-                                            @foreach ($orders as $order)
-                                                <tr>
-                                                    <td>
-                                                        <a
-                                                            href="{{ route('users.orderDetail', $order->id) }}">{{ $order->id }}</a>
-                                                    </td>
-                                                    <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}
-                                                    </td>
-                                                    <td>
-                                                        @if ($order->status == 'pending')
-                                                            <span class="badge bg-danger">Pending</span>
-                                                        @elseif($order->status == 'shipped')
-                                                            <span class="badge bg-info">Shipped</span>
-                                                        @elseif($order->status == 'cancelled')
-                                                            <span class="badge bg-danger">Cancelled</span>
-                                                        @else
-                                                            <span class="badge bg-success">Delivered</span>
-                                                        @endif
 
-                                                    </td>
-                                                    <td>${{ number_format($order->grand_total, 2) }}</td>
-                                                    <td>৳{{ number_format($order->grand_total, 2) }}</td>
-                                                    <td>
-                                                        <a href="{{ route('users.orderDetail', $order->id) }}"
-                                                            class="btn btn-primary btn-sm text-white">View Order</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @else
+                <div class="col-lg-9">
+                    <div class="checkout-form-card">
+                        <h3 class="checkout-title">
+                            <i class="fas fa-shopping-bag"></i> My Orders
+                        </h3>
+
+                        <div class="table-responsive">
+                            <table class="cart-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if ($orders->isNotEmpty())
+                                        @foreach ($orders as $order)
                                             <tr>
-                                                <td colspan="4">Orders not found</td>
+                                                <td>
+                                                    <a href="{{ route('users.orderDetail', $order->id) }}" class="fw-semibold">#{{ $order->id }}</a>
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}</td>
+                                                <td>
+                                                    @if ($order->status == 'pending')
+                                                        <span class="badge" style="background: var(--color-warning);">Pending</span>
+                                                    @elseif($order->status == 'shipped')
+                                                        <span class="badge" style="background: var(--color-accent);">Shipped</span>
+                                                    @elseif($order->status == 'cancelled')
+                                                        <span class="badge" style="background: var(--color-danger);">Cancelled</span>
+                                                    @else
+                                                        <span class="badge" style="background: var(--color-success);">Delivered</span>
+                                                    @endif
+                                                </td>
+                                                <td class="fw-semibold">৳{{ number_format($order->grand_total, 2) }}</td>
+                                                <td>
+                                                    <a href="{{ route('users.orderDetail', $order->id) }}" class="btn-secondary-premium btn-sm">
+                                                        View
+                                                    </a>
+                                                </td>
                                             </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="5" class="text-center py-4">
+                                                <i class="fas fa-shopping-bag" style="font-size: 2rem; color: var(--color-gray-300);"></i>
+                                                <p class="mt-2 text-muted">No orders yet</p>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

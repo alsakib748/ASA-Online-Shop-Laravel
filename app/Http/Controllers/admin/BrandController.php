@@ -42,6 +42,7 @@ class BrandController extends Controller
              $brand->name = $request->name;
              $brand->slug = $request->slug;
              $brand->status = $request->status;
+             $brand->showHome = $request->showHome;
              $brand->save();
 
              // Save Image Here
@@ -121,6 +122,7 @@ class BrandController extends Controller
             $brand->name = $request->name;
             $brand->slug = $request->slug;
             $brand->status = $request->status;
+            $brand->showHome = $request->showHome;
             $brand->save();
 
             $oldImage = $brand->image;

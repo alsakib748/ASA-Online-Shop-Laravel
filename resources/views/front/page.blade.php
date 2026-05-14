@@ -1,94 +1,95 @@
 @extends('front.layouts.app')
 
+@section('title', $page->name . ' - ASA Online Shop')
+
 @section('content')
-    <section class="section-5 pt-3 pb-3 mb-3 bg-white">
+
+    <!-- Breadcrumb -->
+    <section class="py-4" style="background: var(--color-gray-50);">
         <div class="container">
-            <div class="light-font">
-                <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
-                    <li class="breadcrumb-item">{{ $page->name }}</li>
-                </ol>
-            </div>
+            <nav class="breadcrumb-premium">
+                <a href="{{ route('front.home') }}">Home</a>
+                <span>/</span>
+                <span class="current">{{ $page->name }}</span>
+            </nav>
         </div>
     </section>
 
-    @if ($page->slug == 'contact-us')
-        <section class=" section-10">
-            <div class="container">
-                <div class="section-title mt-5 ">
-                    <h2>{{ $page->name }}</h2>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <div class="container">
+    <!-- Page Content -->
+    <section class="py-5">
+        <div class="container">
+            @if ($page->slug == 'contact-us')
                 <div class="row">
-                    <div class="col-md-12">
-                        @if(Session::has('success'))
-                            <div class="alert alert-success">
-                                {{ Session::get('success') }}
-                            </div>
-                        @endif
+                    <div class="col-12 mb-4">
+                        <h1 class="section-title">{{ $page->name }}</h1>
                     </div>
-                    <div class="col-md-6 mt-3 pe-lg-5">
+
+                    @if(Session::has('success'))
+                        <div class="col-12">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ Session::get('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <div class="checkout-form-card">
+                            {!! $page->content !!}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="checkout-form-card">
+                            <h3 class="checkout-title">
+                                <i class="fas fa-envelope"></i> Send us a Message
+                            </h3>
+                            <form method="post" id="contactForm" name="contactForm">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Your Name</label>
+                                    <input class="form-input" id="name" type="text" name="name" placeholder="Enter your name">
+                                    <p class="help-block with-errors text-danger small"></p>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Email Address</label>
+                                    <input class="form-input" id="email" type="email" name="email" placeholder="Enter your email">
+                                    <p class="help-block with-errors text-danger small"></p>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Subject</label>
+                                    <input class="form-input" id="subject" type="text" name="subject" placeholder="Message subject">
+                                    <p class="help-block with-errors text-danger small"></p>
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Message</label>
+                                    <textarea class="form-input" rows="4" id="message" name="message" placeholder="Write your message"></textarea>
+                                    <p class="help-block with-errors text-danger small"></p>
+                                </div>
+
+                                <button class="btn-primary-premium w-100" id="form-submit-btn" type="submit">
+                                    <i class="fas fa-paper-plane me-2"></i> Send Message
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="checkout-form-card">
+                    <h1 class="section-title mb-4">{{ $page->name }}</h1>
+                    <div class="page-content">
                         {!! $page->content !!}
                     </div>
-
-                    <div class="col-md-6">
-                        <form class="shake" method="post" id="contactForm" name="contactForm">
-                            <div class="mb-3">
-                                <label class="mb-2" for="name">Name</label>
-                                <input class="form-control" id="name" type="text" name="name" 
-                                    data-error="Please enter your name">
-                                <p class="help-block with-errors"></p>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="mb-2" for="email">Email</label>
-                                <input class="form-control" id="email" type="email" name="email" 
-                                    data-error="Please enter your Email">
-                                <p class="help-block with-errors"></p>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="mb-2">Subject</label>
-                                <input class="form-control" id="subject" type="text" name="subject" 
-                                    data-error="Please enter your message subject">
-                                <p class="help-block with-errors"></p>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="message" class="mb-2">Message</label>
-                                <textarea class="form-control" rows="3" id="message" name="message"  data-error="Write your message"></textarea>
-                                <p class="help-block with-errors"></p>
-                            </div>
-
-                            <div class="form-submit">
-                                <button class="btn btn-dark" id="form-submit-btn" type="submit" id="form-submit"><i
-                                        class="material-icons mdi mdi-message-outline"></i> Send Message</button>
-                                <div id="msgSubmit" class="h3 text-center hidden"></div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </form>
-                    </div>
                 </div>
-            </div>
-        </section>
-    @else
-        <section class=" section-10">
-            <div class="container">
-                <h1 class="my-3">{{ $page->name }}</h1>
+            @endif
+        </div>
+    </section>
 
-                {!! $page->content !!}
-
-            </div>
-        </section>
-    @endif
 @endsection
 
 @section("customJs")
-
 <script>
     $("#contactForm").submit(function(event){
         event.preventDefault();
@@ -102,40 +103,37 @@
             dataType: 'json',
             success: function(response){
                 if(response.status == true){
-                    
                     $("#form-submit-btn").prop('disabled',true);
-
                     window.location.href = "{{ route('front.page',$page->slug) }}";
-
-                } else{
-
+                } else {
                     var errors = response.errors;
 
                     if(errors.name){
-                        $("#name").addClass("is-invalid").siblings("p").addClass("invalid-feedback").html(errors.name);
-                    } else{
-
-                        $("#name").removeClass("is-invalid").siblings("p").removeClass("invalid-feedback").html("");
+                        $("#name").addClass("is-invalid");
+                        $("#name").next("p").html(errors.name);
+                    } else {
+                        $("#name").removeClass("is-invalid");
+                        $("#name").next("p").html("");
                     }
 
                     if(errors.email){
-                        $("#email").addClass("is-invalid").siblings("p").addClass("invalid-feedback").html(errors.email);
-                    } else{
-
-                        $("#email").removeClass("is-invalid").siblings("p").removeClass("invalid-feedback").html("");
+                        $("#email").addClass("is-invalid");
+                        $("#email").next("p").html(errors.email);
+                    } else {
+                        $("#email").removeClass("is-invalid");
+                        $("#email").next("p").html("");
                     }
 
                     if(errors.subject){
-                        $("#subject").addClass("is-invalid").siblings("p").addClass("invalid-feedback").html(errors.subject);
-                    } else{
-
-                        $("#subject").removeClass("is-invalid").siblings("p").removeClass("invalid-feedback").html("");
+                        $("#subject").addClass("is-invalid");
+                        $("#subject").next("p").html(errors.subject);
+                    } else {
+                        $("#subject").removeClass("is-invalid");
+                        $("#subject").next("p").html("");
                     }
-
-                }    
+                }
             }
         });
     });
 </script>
-
 @endsection

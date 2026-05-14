@@ -1,82 +1,97 @@
 @extends('front.layouts.app')
 
+@section('title', 'My Wishlist - ASA Online Shop')
+
 @section('content')
 
-    <section class="section-5 pt-3 pb-3 mb-3 bg-white">
+    <!-- Breadcrumb -->
+    <section class="py-4" style="background: var(--color-gray-50);">
         <div class="container">
-            <div class="light-font">
-                <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('dashboard') }}">My Account</a></li>
-                    <li class="breadcrumb-item">My Wishlist</li>
-                </ol>
-            </div>
+            <nav class="breadcrumb-premium">
+                <a href="{{ route('front.home') }}">Home</a>
+                <span>/</span>
+                <a href="{{ route('dashboard') }}">My Account</a>
+                <span>/</span>
+                <span class="current">Wishlist</span>
+            </nav>
         </div>
     </section>
 
-    <section class=" section-11 ">
-        <div class="container  mt-5">
+    <!-- Wishlist Content -->
+    <section class="py-5">
+        <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 mb-4">
                     @include('front.message')
                 </div>
-                <div class="col-md-3">
+
+                <div class="col-lg-3 mb-4 mb-lg-0">
                     @include('front.common.sidebar')
                 </div>
-                <div class="col-md-9">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="h5 mb-0 pt-2 pb-2">My Wishlists</h2>
-                        </div>
-                        <div class="card-body p-4">
-                            @if ($wishlists->isNotEmpty())
-                                @foreach ($wishlists as $wishlist)
-                                    <div class="d-sm-flex justify-content-between mt-lg-4 mb-4 pb-3 pb-sm-2 border-bottom">
-                                        <div class="d-block d-sm-flex align-items-start text-center text-sm-start">
-                                            <a class="d-block flex-shrink-0 mx-auto me-sm-4"
-                                                href="{{ route('front.product', $wishlist->product->slug) }}"
-                                                style="width: 8rem;">
 
+                <div class="col-lg-9">
+                    <div class="checkout-form-card">
+                        <h3 class="checkout-title">
+                            <i class="fas fa-heart"></i> My Wishlist
+                        </h3>
+
+                        @if ($wishlists->isNotEmpty())
+                            <div class="d-flex flex-column gap-4">
+                                @foreach ($wishlists as $wishlist)
+                                    <div class="d-sm-flex justify-content-between align-items-center pb-4"
+                                        style="border-bottom: 1px solid var(--color-gray-100);">
+                                        <div class="d-flex align-items-start">
+                                            <a href="{{ route('front.product', $wishlist->product->slug) }}" class="me-4"
+                                                style="width: 100px;">
                                                 @php
                                                     $productImage = getProductImage($wishlist->product_id);
                                                 @endphp
-
                                                 @if (!empty($productImage))
-                                                    <img src="{{ asset('uploads/product/small/' . $productImage->image) }}">
+                                                    <img src="{{ asset('uploads/product/small/' . $productImage->image) }}"
+                                                        class="img-fluid" style="border-radius: var(--radius-lg);">
                                                 @else
-                                                    <img src="{{ asset('admin-assets/img/default-150x150.png') }}">
+                                                    <img src="{{ asset('admin-assets/img/default-150x150.png') }}"
+                                                        class="img-fluid" style="border-radius: var(--radius-lg);">
                                                 @endif
-
                                             </a>
-                                            <div class="pt-2">
-                                                <h3 class="product-title fs-base mb-2"><a
+                                            <div>
+                                                <h4 class="mb-2">
+                                                    <a
                                                         href="{{ route('front.product', $wishlist->product->slug) }}">{{ $wishlist->product->title }}</a>
-                                                </h3>
-                                                <div class="fs-lg text-accent pt-2">
+                                                </h4>
+                                                <div class="product-price">
                                                     <span
-                                                        class="h5"><strong>৳{{ $wishlist->product->price }}</strong></span>
+                                                        class="price-current">৳{{ number_format($wishlist->product->price) }}</span>
                                                     @if ($wishlist->product->compare_price > 0)
                                                         <span
-                                                            class="h6 text-underline"><del>${{ $wishlist->product->compare_price }}</del></span>
-                                                        class="h6 text-underline"><del>৳{{ $wishlist->product->compare_price }}</del></span>
+                                                            class="price-original">৳{{ number_format($wishlist->product->compare_price) }}</span>
                                                     @endif
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
-                                            <button onclick="removeProduct({{ $wishlist->product_id }})"
-                                                class="btn btn-outline-danger btn-sm" type="button"><i
-                                                    class="fas fa-trash-alt me-2"></i>Remove</button>
+                                        <div class="d-flex gap-2 mt-3 mt-sm-0">
+                                            <button onclick="addToCart({{ $wishlist->product_id }})"
+                                                class="btn-primary-premium">
+                                                <i class="fas fa-shopping-bag me-2"></i> Add to Cart
+                                            </button>
+                                            <button onclick="removeProduct({{ $wishlist->product_id }})" class="action-btn"
+                                                title="Remove">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 @endforeach
-                            @else
-                                <div class="">
-                                    <h3 class="h5">Your wishlist is empty!!</h3>
-                                </div>
-                            @endif
-
-
-                        </div>
+                            </div>
+                        @else
+                            <div class="text-center py-5">
+                                <i class="fas fa-heart" style="font-size: 3rem; color: var(--color-gray-300);"></i>
+                                <h4 class="mt-3">Your wishlist is empty</h4>
+                                <p class="text-muted mb-4">Save items you love to your wishlist</p>
+                                <a href="{{ route('front.shop') }}" class="btn-primary-premium">
+                                    <i class="fas fa-arrow-left me-2"></i> Start Shopping
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -88,23 +103,21 @@
 @section('customJs')
     <script>
         function removeProduct(id) {
-
-
-            $.ajax({
-                url: "{{ route('users.removeProductFromWishList') }}",
-                method: 'POST',
-                data: {
-                    id: id
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status == true) {
-                        window.location.href = "{{ route('users.wishlist') }}";
+            if (confirm('Are you sure you want to remove this item?')) {
+                $.ajax({
+                    url: "{{ route('users.removeProductFromWishList') }}",
+                    method: 'POST',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status == true) {
+                            window.location.href = "{{ route('front.wishlist') }}";
+                        }
                     }
-                }
-            });
-
-
+                });
+            }
         }
     </script>
 @endsection

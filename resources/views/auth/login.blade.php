@@ -1,97 +1,93 @@
 @extends('front.layouts.app')
 
+@section('title', 'Login - ASA Online Shop')
+
 @section('content')
-    {{-- <x-guest-layout>
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-        @if (Session::has('success'))
-            <div class="alert alert-success">
-                {{ Session::get('success') }}
-            </div>
-        @endif
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
 
-            <!-- Email Address -->
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
-
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-primary-button class="ms-3">
-                    {{ __('Log in') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </x-guest-layout> --}}
-
-    <section class="section-5 pt-3 pb-3 mb-3 bg-white">
+    <!-- Breadcrumb -->
+    <section class="py-4" style="background: var(--color-gray-50);">
         <div class="container">
-            <div class="light-font">
-                <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
-                    <li class="breadcrumb-item">Login</li>
-                </ol>
+            <nav class="breadcrumb-premium">
+                <a href="{{ route('front.home') }}">Home</a>
+                <span>/</span>
+                <span class="current">Login</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section class="py-5" style="background: var(--color-gray-50); min-height: 70vh;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="checkout-form-card">
+                        <div class="text-center mb-4">
+                            <h3 style="font-weight: 700;">Welcome Back</h3>
+                            <p class="text-muted mb-0">Sign in to your account</p>
+                        </div>
+
+                        @if (Session::has('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ Session::get('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        @if (Session::has('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ Session::get('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('login') }}" method="POST">
+                            @csrf
+                            <div class="form-group mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-input"
+                                    value="{{ old('email') }}" required autofocus
+                                    placeholder="Enter your email">
+                                @error('email')
+                                    <p class="text-danger small mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" id="password" name="password" class="form-input"
+                                    required autocomplete="current-password"
+                                    placeholder="Enter your password">
+                                @error('password')
+                                    <p class="text-danger small mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <label class="d-flex align-items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="remember" id="remember" class="form-check-input" style="width: 18px; height: 18px;">
+                                    <span class="form-check-label">Remember me</span>
+                                </label>
+                                @if (Route::has('password.request'))
+                                    <a href="{{ route('password.request') }}" class="text-primary fw-semibold" style="font-size: 0.9rem;">
+                                        Forgot password?
+                                    </a>
+                                @endif
+                            </div>
+
+                            <button type="submit" class="btn-primary-premium w-100">
+                                <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                            </button>
+                        </form>
+
+                        <div class="text-center mt-4 pt-3" style="border-top: 1px solid var(--color-gray-200);">
+                            <p class="text-muted mb-0">Don't have an account?
+                                <a href="{{ route('register') }}" class="text-primary fw-semibold">Sign up</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class=" section-10">
-        <div class="container">
-            <div class="login-form">
-                @if (Session::has('success'))
-                    <div class="alert alert-success">
-                        {{ Session::get('success') }}
-                    </div>
-                @endif
-                <form action="{{ route('login') }}" method="POST">
-                    @csrf
-                    <h4 class="modal-title">Login to Your Account</h4>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Email"
-                            value="admin@gmail.com" required autofocus />
-                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                            value="11111111" required autocomplete="current-password">
-                        <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />
-                    </div>
-                    <div class="form-group small">
-                        <a href="{{ route('password.request') }}" class="forgot-link">Forgot Password?</a>
-                    </div>
-                    <input type="submit" class="btn btn-dark btn-block btn-lg" value="Login">
-                </form>
-                <div class="text-center small">Don't have an account? <a href="{{ route('register') }}">Sign up</a></div>
-            </div>
-        </div>
-    </section>
 @endsection

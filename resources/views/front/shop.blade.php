@@ -1,184 +1,191 @@
 @extends('front.layouts.app')
 
+@section('title', 'Shop - ASA Online Shop')
+
 @section('content')
 
-    <section class="section-5 pt-3 pb-3 mb-3 bg-white">
+    <!-- Breadcrumb -->
+    <section class="py-4" style="background: var(--color-gray-50);">
         <div class="container">
-            <div class="light-font">
-                <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
-                    {{-- <li class="breadcrumb-item active"><a href="{{ route('front.product',$product->slug) }}">Shop</a></li> --}}
-                    <li class="breadcrumb-item active"><a href="">Shop</a></li>
-                </ol>
-            </div>
+            <nav class="breadcrumb-premium">
+                <a href="{{ route('front.home') }}">Home</a>
+                <span>/</span>
+                <span class="current">Shop</span>
+            </nav>
         </div>
     </section>
 
-    <section class="section-6 pt-5">
+    <!-- Shop Content -->
+    <section class="product-detail">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 sidebar">
-                    <div class="sub-title">
-                        <h2>Categories</h3>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="accordion accordion-flush" id="accordionExample">
-
-                                @if ($categories->isNotEmpty())
-                                    @foreach ($categories as $key => $category)
-                                        <div class="accordion-item">
-                                            @if ($category->sub_category->isNotEmpty())
-                                                <h2 class="accordion-header" id="headingOne">
-                                                    <button class="accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseOne-{{ $key }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseOne-{{ $key }}">
-                                                        {{ $category->name }}
-                                                    </button>
-                                                </h2>
-                                            @else
-                                                <a href="{{ route('front.shop', $category->slug) }}"
-                                                    class="nav-item nav-link {{ $categorySelected == $category->id ? 'bg-dark text-primary' : '' }}">{{ $category->name }}</a>
-                                            @endif
-
-                                            @if ($category->sub_category->isNotEmpty())
-                                                <div id="collapseOne-{{ $key }}"
-                                                    class="accordion-collapse collapse {{ $categorySelected == $category->id ? 'show' : '' }}"
-                                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample"
-                                                    style="">
-                                                    <div class="accordion-body">
-                                                        <div class="navbar-nav">
-                                                            @foreach ($category->sub_category as $subCategory)
-                                                                <a href="{{ route('front.shop', [$category->slug, $subCategory->slug]) }}"
-                                                                    class="nav-item nav-link {{ $subCategorySelected == $subCategory->id ? 'bg-dark text-primary' : '' }}">{{ $subCategory->name }}</a>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
+                <!-- Sidebar Filters -->
+                <div class="col-lg-3 mb-5 mb-lg-0">
+                    <!-- Categories -->
+                    <div class="checkout-form-card mb-4">
+                        <h4 class="checkout-title">
+                            <i class="fas fa-th-large"></i> Categories
+                        </h4>
+                        <div class="accordion accordion-flush" id="categoryAccordion">
+                            @if ($categories->isNotEmpty())
+                                @foreach ($categories as $key => $category)
+                                    <div class="accordion-item border-0">
+                                        @if ($category->sub_category->isNotEmpty())
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed fw-semibold" type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#category-{{ $key }}"
+                                                    aria-expanded="false">
+                                                    {{ $category->name }}
+                                                </button>
+                                            </h2>
+                                            <div id="category-{{ $key }}"
+                                                class="accordion-collapse collapse {{ $categorySelected == $category->id ? 'show' : '' }}">
+                                                <div class="accordion-body p-0">
+                                                    @foreach ($category->sub_category as $subCategory)
+                                                        <a href="{{ route('front.shop', [$category->slug, $subCategory->slug]) }}"
+                                                            class="d-block py-2 ps-3 text-muted {{ $subCategorySelected == $subCategory->id ? 'text-primary fw-semibold' : '' }}"
+                                                            style="border-bottom: 1px solid var(--color-gray-100);">
+                                                            {{ $subCategory->name }}
+                                                        </a>
+                                                    @endforeach
                                                 </div>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                @endif
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="sub-title mt-5">
-                        <h2>Brand</h3>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-body">
-                            @if ($brands->isNotEmpty())
-                                @foreach ($brands as $brand)
-                                    <div class="form-check mb-2">
-                                        <input {{ in_array($brand->id, $brandsArray) ? 'checked' : ' ' }}
-                                            class="form-check-input brand-label" type="checkbox" name="brand[]"
-                                            value="{{ $brand->id }}" id="brand-{{ $brand->id }}">
-                                        <label class="form-check-label" for="brand-{{ $brand->id }}">
-                                            {{ $brand->name }}
-                                        </label>
+                                            </div>
+                                        @else
+                                            <a href="{{ route('front.shop', $category->slug) }}"
+                                                class="d-block py-3 fw-semibold {{ $categorySelected == $category->id ? 'text-primary' : 'text-muted' }}"
+                                                style="border-bottom: 1px solid var(--color-gray-100);">
+                                                {{ $category->name }}
+                                            </a>
+                                        @endif
                                     </div>
                                 @endforeach
                             @endif
-
                         </div>
                     </div>
 
-                    <div class="sub-title mt-5">
-                        <h2>Price</h3>
+                    <!-- Brands -->
+                    <div class="checkout-form-card mb-4">
+                        <h4 class="checkout-title">
+                            <i class="fas fa-tag"></i> Brands
+                        </h4>
+                        <div class="d-flex flex-column gap-2">
+                            @if ($brands->isNotEmpty())
+                                @foreach ($brands as $brand)
+                                    <label class="d-flex align-items-center gap-2 cursor-pointer">
+                                        <input {{ in_array($brand->id, $brandsArray) ? 'checked' : '' }}
+                                            class="brand-label form-check-input" type="checkbox"
+                                            value="{{ $brand->id }}" style="width: 18px; height: 18px;">
+                                        <span class="form-check-label">{{ $brand->name }}</span>
+                                    </label>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <input type="text" class="js-range-slider" name="my_range" value="" />
-                        </div>
+                    <!-- Price Range -->
+                    <div class="checkout-form-card">
+                        <h4 class="checkout-title">
+                            <i class="fas fa-dollar-sign"></i> Price Range
+                        </h4>
+                        <input type="text" class="js-range-slider" name="my_range" value="" />
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <div class="row pb-3">
-                        <div class="col-12 pb-1">
-                            <div class="d-flex align-items-center justify-content-end mb-4">
-                                <div class="ml-2">
-                                    <select name="sort" id="sort" class="form-control">
-                                        <option selected value="">Sort By</option>
-                                        <option {{ $sort == 'latest' ? 'selected' : '' }} value="latest">Latest</option>
-                                        <option {{ $sort == 'price_desc' ? 'selected' : '' }} value="price_desc">Price
-                                            High</option>
-                                        <option {{ $sort == 'price_asc' ? 'selected' : '' }} value="price_asc">Price Low
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
 
+                <!-- Products Grid -->
+                <div class="col-lg-9">
+                    <!-- Toolbar -->
+                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                        <p class="mb-0 text-muted">Showing <strong>{{ $products->count() }}</strong> products</p>
+                        <div class="d-flex align-items-center gap-3">
+                            <select name="sort" id="sort" class="form-select" style="width: auto; padding: var(--space-sm) var(--space-lg); border-radius: var(--radius-lg);">
+                                <option selected value="">Sort By</option>
+                                <option {{ $sort == 'latest' ? 'selected' : '' }} value="latest">Newest First</option>
+                                <option {{ $sort == 'price_asc' ? 'selected' : '' }} value="price_asc">Price: Low to High</option>
+                                <option {{ $sort == 'price_desc' ? 'selected' : '' }} value="price_desc">Price: High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="row g-4">
                         @if ($products->isNotEmpty())
                             @foreach ($products as $product)
                                 @php
                                     $productImage = $product->product_images->first();
                                 @endphp
-
-                                <div class="col-md-4">
-                                    <div class="card product-card">
-                                        <div class="product-image position-relative">
-                                            <a href="{{ route('front.product', $product->slug) }}" class="product-img">
-
+                                <div class="col-6 col-md-4">
+                                    <div class="product-card">
+                                        <div class="product-image">
+                                            <a href="{{ route('front.product', $product->slug) }}">
                                                 @if (!empty($productImage->image))
-                                                    <img src="{{ asset('uploads/product/small/' . $productImage->image) }}"
-                                                        class="card-img-top">
+                                                    <img src="{{ asset('uploads/product/small/' . $productImage->image) }}" alt="{{ $product->title }}">
                                                 @else
-                                                    <img src="{{ asset('admin-assets/img/default-150x150.png') }}"
-                                                        class="card-img-top">
+                                                    <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="{{ $product->title }}">
                                                 @endif
                                             </a>
-                                            <a onclick="addToWishList({{ $product->id }})" class="whishlist"
-                                                href="javascript:void(0)"><i class="far fa-heart"></i></a>
 
-                                            <div class="product-action">
-                                                @if ($product->track_qty == 'Yes')
-                                                    @if ($product->qty > 0)
-                                                        <a class="btn btn-dark" href="javascript:void(0)"
-                                                            onclick="addToCart({{ $product->id }})">
-                                                            <i class="fa fa-shopping-cart"></i> Add To Cart
-                                                        </a>
-                                                    @else
-                                                        <a class="btn btn-dark" href="javascript:void(0)">
-                                                            <i class="fa fa-shopping-cart"></i> Out Of Stock
-                                                        </a>
-                                                    @endif
-                                                @else
-                                                    <a class="btn btn-dark" href="javascript:void(0)"
-                                                        onclick="addToCart({{ $product->id }})">
-                                                        <i class="fa fa-shopping-cart"></i> Add To Cart
-                                                    </a>
-                                                @endif
+                                            @if($product->compare_price > 0)
+                                                <span class="product-badge product-badge-sale">Sale</span>
+                                            @elseif($product->qty <= 0)
+                                                <span class="product-badge product-badge-soldout">Sold Out</span>
+                                            @endif
+
+                                            <button class="wishlist-btn" onclick="addToWishList({{ $product->id }}); event.preventDefault();">
+                                                <i class="far fa-heart"></i>
+                                            </button>
+
+                                            <div class="product-actions-overlay">
+                                                <button class="action-btn" onclick="addToWishList({{ $product->id }})" title="Add to Wishlist">
+                                                    <i class="far fa-heart"></i>
+                                                </button>
+                                                <button class="action-btn action-btn-add" onclick="quickAddToCart({{ $product->id }})" title="Quick Add">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
                                             </div>
                                         </div>
 
-                                        <div class="card-body text-center mt-3">
-                                            <a class="h6 link"
-                                                href="{{ route('front.product', $product->slug) }}">{{ $product->title }}</a>
-                                            <div class="price mt-2">
-                                                <span class="h5"><strong>৳{{ $product->price }}</strong></span>
+                                        <div class="product-info">
+                                            <span class="product-category">{{ $product->category->name ?? '' }}</span>
+                                            <h3 class="product-title">
+                                                <a href="{{ route('front.product', $product->slug) }}">{{ $product->title }}</a>
+                                            </h3>
+                                            <div class="product-price">
+                                                <span class="price-current">৳{{ number_format($product->price) }}</span>
                                                 @if ($product->compare_price > 0)
-                                                    <span
-                                                        class="h6 text-underline"><del>৳{{ $product->compare_price }}</del></span>
+                                                    <span class="price-original">৳{{ number_format($product->compare_price) }}</span>
                                                 @endif
+                                            </div>
+                                            <div class="product-rating">
+                                                <div class="rating-stars">
+                                                    @for($i = 1; $i <= 5; $i++)
+                                                        <i class="fas fa-star {{ $i <= 4 ? '' : 'empty' }}"></i>
+                                                    @endfor
+                                                </div>
+                                                <span class="rating-count">({{ $product->product_ratings_count ?? 0 }})</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
+                        @else
+                            <div class="col-12">
+                                <div class="text-center py-5">
+                                    <i class="fas fa-search" style="font-size: 4rem; color: var(--color-gray-300);"></i>
+                                    <h3 class="mt-4">No Products Found</h3>
+                                    <p class="text-muted">Try adjusting your filters or search terms</p>
+                                    <a href="{{ route('front.shop') }}" class="btn-primary-premium mt-3">Clear Filters</a>
+                                </div>
+                            </div>
                         @endif
+                    </div>
 
-                        <div class="col-md-12 pt-5">
+                    <!-- Pagination -->
+                    @if($products->hasPages())
+                        <div class="mt-5">
                             {{ $products->withQueryString()->links() }}
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -189,34 +196,48 @@
 @section('customJs')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
     <script>
-        $(".brand-label").change(function() {
-            apply_filters();
-        });
+        var rangeSlider;
 
-        rangeSlider = $(".js-range-slider").ionRangeSlider({
-            type: "double",
-            min: 0,
-            max: 1000,
-            from: {{ $priceMin }},
-            step: 10,
-            to: {{ $priceMax }},
-            skin: "round",
-            max_postfix: "+",
-            prefix: "$",
-            onFinish: function() {
-                apply_filters()
+        $(document).ready(function() {
+            try {
+                // Price range slider - Initialize properly
+                var sliderElement = $(".js-range-slider");
+                if (sliderElement.length) {
+                    var slider = sliderElement.ionRangeSlider({
+                        type: "double",
+                        min: 0,
+                        max: 10000,
+                        from: {{ $priceMin }},
+                        to: {{ $priceMax }},
+                        step: 100,
+                        skin: "round",
+                        postfix: " ৳",
+                        force_edges: true,
+                        onFinish: function(data) {
+                            apply_filters(data.from, data.to);
+                        }
+                    });
+
+                    // Store slider instance
+                    rangeSlider = slider.data("ionRangeSlider");
+                }
+            } catch(e) {
+                console.log('Slider initialization error:', e);
             }
+
+            // Brand filter change
+            $(".brand-label").change(function() {
+                apply_filters();
+            });
+
+            // Sort change
+            $("#sort").change(function() {
+                apply_filters();
+            });
         });
 
-        // Saving it's instance to var
-        var slider = $(".js-range-slider").data("ionRangeSlider");
-
-
-        $("#sort").change(function() {
-            apply_filters();
-        });
-
-        function apply_filters() {
+        // Apply filters function
+        function apply_filters(priceFrom, priceTo) {
             var brands = [];
 
             $(".brand-label").each(function() {
@@ -225,21 +246,31 @@
                 }
             });
 
+            // Get price values from slider
+            var from, to;
+            try {
+                if (typeof rangeSlider !== 'undefined' && rangeSlider && rangeSlider !== null) {
+                    from = (priceFrom !== undefined && priceFrom !== null) ? priceFrom : rangeSlider.result.from;
+                    to = (priceTo !== undefined && priceTo !== null) ? priceTo : rangeSlider.result.to;
+                } else {
+                    from = {{ $priceMin }};
+                    to = {{ $priceMax }};
+                }
+            } catch(e) {
+                from = {{ $priceMin }};
+                to = {{ $priceMax }};
+            }
+
             var url = '{{ url()->current() }}?'
 
-            // Brand Filter
             if (brands.length > 0) {
                 url += '&brand=' + brands.toString()
             }
 
-            // Price Range Filter
-            url += '&price_min=' + slider.result.from + '&price_max=' + slider.result.to;
-
-            // Sorting Filter
+            url += '&price_min=' + from + '&price_max=' + to;
 
             var keyword = $("#search").val();
-
-            if (keyword.length > 0) {
+            if (keyword && keyword.length > 0) {
                 url += '&search=' + keyword;
             }
 

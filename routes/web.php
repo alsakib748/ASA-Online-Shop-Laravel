@@ -196,11 +196,11 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('/dashboard', 'userProfile')->middleware(['auth', 'verified'])->name('dashboard');
         Route::post('/update-profile', 'updateProfile')->name('users.updateProfile');
         Route::post('/update-address', 'updateAddress')->name('users.updateAddress');
-        Route::get('/change-password', 'showChangePasswordForm')->name('users.changePassword');
+        Route::get('/change-password', 'showChangePasswordForm')->name('front.change-password');
         Route::post('/process-change-password', 'changePassword')->name('users.processChangePassword');
-        Route::get('/my-orders', 'orders')->name('users.orders');
+        Route::get('/my-orders', 'orders')->name('front.orders');
         Route::get('/order-detail/{orderId}', 'orderDetail')->name('users.orderDetail');
-        Route::get('/my-wishlist', 'wishlist')->name('users.wishlist');
+        Route::get('/my-wishlist', 'wishlist')->name('front.wishlist');
         Route::post('/remove-product-from-wishlist', 'removeProductFromWishList')->name('users.removeProductFromWishList');
         Route::post('/logout', 'UserLogout')->name('user.logout');
     });

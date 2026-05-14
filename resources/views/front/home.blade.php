@@ -1,272 +1,405 @@
 @extends('front.layouts.app')
 
+@section('title', 'ASA Online Shop - Premium Shopping Experience')
+
 @section('content')
 
-    <section class="section-1">
-        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel"
-            data-bs-interval="false">
+    <!-- Premium Hero Carousel -->
+    <section class="premium-hero hero-carousel">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-indicators hero-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
+                    aria-current="true"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+            </div>
+
             <div class="carousel-inner">
+                <!-- Slide 1 -->
                 <div class="carousel-item active">
-                    <!-- <img src="images/carousel-1.jpg" class="d-block w-100" alt=""> -->
-
-                    <picture>
-                        <source media="(max-width: 799px)" srcset="{{ asset('front-assets/images/carousel-1-m.jpg') }}" />
-                        <source media="(min-width: 800px)" srcset="{{ asset('front-assets/images/carousel-1.jpg') }}" />
-                        <img src="{{ asset('front-assets/images/carousel-1.jpg') }}" alt="" />
-                    </picture>
-
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3">
-                            <h1 class="display-4 text-white mb-3">Kids Fashion</h1>
-                            <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo
-                                stet amet amet ndiam elitr ipsum diam</p>
-                            <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
+                    <img src="{{ asset('front-assets/images/carousel-1.jpg') }}" alt="Kids Fashion">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <div class="hero-content-inner">
+                            <span class="hero-badge">New Collection</span>
+                            <h1 class="hero-title">Kids Fashion</h1>
+                            <p class="hero-subtitle">Discover the latest trends for your little ones. Premium quality,
+                                comfortable styles.</p>
+                            <div class="hero-actions">
+                                <a href="{{ route('front.shop') }}" class="btn-premium btn-premium-primary">
+                                    Shop Now <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                                <a href="{{ route('front.shop') }}" class="btn-premium btn-premium-outline">
+                                    View Collection
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Slide 2 -->
                 <div class="carousel-item">
-
-                    <picture>
-                        <source media="(max-width: 799px)" srcset="{{ asset('front-assets/images/carousel-2-m.jpg') }}" />
-                        <source media="(min-width: 800px)" srcset="{{ asset('front-assets/images/carousel-2.jpg') }}" />
-                        <img src="{{ asset('front-assets/images/carousel-2.jpg') }}" alt="" />
-                    </picture>
-
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3">
-                            <h1 class="display-4 text-white mb-3">Womens Fashion</h1>
-                            <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo
-                                stet amet amet ndiam elitr ipsum diam</p>
-                            <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
+                    <img src="{{ asset('front-assets/images/carousel-2.jpg') }}" alt="Women's Fashion">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <div class="hero-content-inner">
+                            <span class="hero-badge">Trending Now</span>
+                            <h1 class="hero-title">Women's Fashion</h1>
+                            <p class="hero-subtitle">Elegant styles for the modern woman. Express yourself with our curated
+                                collection.</p>
+                            <div class="hero-actions">
+                                <a href="{{ route('front.shop') }}" class="btn-premium btn-premium-primary">
+                                    Explore Now <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                                <a href="{{ route('front.shop') }}" class="btn-premium btn-premium-outline">
+                                    Learn More
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Slide 3 -->
                 <div class="carousel-item">
-                    <!-- <img src="images/carousel-3.jpg" class="d-block w-100" alt=""> -->
-
-                    <picture>
-                        <source media="(max-width: 799px)" srcset="{{ asset('front-assets/images/carousel-3-m.jpg') }}" />
-                        <source media="(min-width: 800px)" srcset="{{ asset('front-assets/images/carousel-3.jpg') }}" />
-                        <img src="{{ asset('front-assets/images/carousel-2.jpg') }}" alt="" />
-                    </picture>
-
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3">
-                            <h1 class="display-4 text-white mb-3">Shop Online at Flat 70% off on Branded Clothes
-                            </h1>
-                            <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo
-                                stet amet amet ndiam elitr ipsum diam</p>
-                            <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
+                    <img src="{{ asset('front-assets/images/carousel-2.jpg') }}" alt="Sale">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <div class="hero-content-inner">
+                            <span class="hero-badge" style="background: var(--color-sale);">Up to 70% Off</span>
+                            <h1 class="hero-title">Biggest Sale Event</h1>
+                            <p class="hero-subtitle">Shop premium branded clothes at unbeatable prices. Limited time only!
+                            </p>
+                            <div class="hero-actions">
+                                <a href="{{ route('front.shop') }}" class="btn-premium btn-premium-accent">
+                                    Shop the Sale <i class="fas fa-fire ms-2"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <i class="fas fa-chevron-left"></i>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <i class="fas fa-chevron-right"></i>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
     </section>
-    <section class="section-2">
+
+    <!-- Features Bar -->
+    <section class="features-bar">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="box shadow-lg">
-                        <div class="fa icon fa-check text-primary m-0 mr-3"></div>
-                        <h2 class="font-weight-semi-bold m-0">Quality Product</h5>
+            <div class="row g-0">
+                <div class="col-md-3">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Free Shipping</h4>
+                            <p>On orders over ৳500</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 ">
-                    <div class="box shadow-lg">
-                        <div class="fa icon fa-shipping-fast text-primary m-0 mr-3"></div>
-                        <h2 class="font-weight-semi-bold m-0">Free Shipping</h2>
+                <div class="col-md-3">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-undo"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Easy Returns</h4>
+                            <p>14-day return policy</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="box shadow-lg">
-                        <div class="fa icon fa-exchange-alt text-primary m-0 mr-3"></div>
-                        <h2 class="font-weight-semi-bold m-0">14-Day Return</h2>
+                <div class="col-md-3">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Secure Payment</h4>
+                            <p>100% secure checkout</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 ">
-                    <div class="box shadow-lg">
-                        <div class="fa icon fa-phone-volume text-primary m-0 mr-3"></div>
-                        <h2 class="font-weight-semi-bold m-0">24/7 Support</h5>
+                <div class="col-md-3">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>24/7 Support</h4>
+                            <p>Dedicated support team</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="section-3">
-        <div class="container">
-            <div class="section-title">
-                <h2>Categories</h2>
-            </div>
-            <div class="row pb-3">
 
+    <!-- Categories Section -->
+    <section class="section-categories">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Shop by Category</h2>
+                <p class="section-subtitle">Explore our curated collection by category</p>
+            </div>
+
+            <div class="category-grid">
                 @if (getCategories()->isNotEmpty())
                     @foreach (getCategories() as $category)
-                        <div class="col-lg-3">
-                            <div class="cat-card">
-                                <div class="left">
-                                    @if ($category->image != '')
-                                        <img src="{{ asset('uploads/category/thumb/' . $category->image) }}" alt=""
-                                            class="img-fluid">
-                                    @endif
-                                </div>
-                                <div class="right">
-                                    <div class="cat-data">
-                                        <h2>{{ $category->name }}</h2>
-                                        {{-- <p>100 Products</p> --}}
-                                    </div>
+                        <a href="{{ route('front.shop', $category->slug) }}" class="category-card">
+                            @if ($category->image != '')
+                                <img src="{{ asset('uploads/category/thumb/' . $category->image) }}"
+                                    alt="{{ $category->name }}">
+                            @else
+                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}"
+                                    alt="{{ $category->name }}">
+                            @endif
+                            <div class="category-overlay">
+                                <div class="category-info">
+                                    <h3>{{ $category->name }}</h3>
+                                    <p>Shop now</p>
                                 </div>
                             </div>
-                        </div>
+                            @if ($category->sub_category->isNotEmpty())
+                                <span class="category-count">{{ $category->sub_category->count() }} Subcategories</span>
+                            @endif
+                        </a>
                     @endforeach
                 @endif
-
             </div>
         </div>
     </section>
 
-    <section class="section-4 pt-5">
+    <!-- Featured Products -->
+    <section class="section-products" style="background: var(--color-gray-50);">
         <div class="container">
-            <div class="section-title">
-                <h2>Featured Products</h2>
+            <div class="section-header">
+                <h2 class="section-title">Featured Products</h2>
+                <p class="section-subtitle">Handpicked selections for the discerning shopper</p>
             </div>
-            <div class="row pb-3">
+
+            <div class="product-grid">
                 @if ($featuredProducts->isNotEmpty())
                     @foreach ($featuredProducts as $product)
                         @php
                             $productImage = $product->product_images->first();
                         @endphp
-                        <div class="col-md-3">
-                            <div class="card product-card">
-                                <div class="product-image position-relative">
-                                    <a href="{{ route('front.product', $product->slug) }}" class="product-img">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <a href="{{ route('front.product', $product->slug) }}">
+                                    @if (!empty($productImage->image))
+                                        <img src="{{ asset('uploads/product/small/' . $productImage->image) }}"
+                                            alt="{{ $product->title }}">
+                                    @else
+                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}"
+                                            alt="{{ $product->title }}">
+                                    @endif
+                                </a>
 
-                                        @if (!empty($productImage->image))
-                                            <img src="{{ asset('uploads/product/small/' . $productImage->image) }}"
-                                                class="card-img-top">
-                                        @else
-                                            <img src="{{ asset('admin-assets/img/default-150x150.png') }}"
-                                                class="card-img-top">
-                                        @endif
+                                <!-- Badges -->
+                                @if ($product->compare_price > 0)
+                                    <span class="product-badge product-badge-sale">Sale</span>
+                                @elseif($product->qty <= 0)
+                                    <span class="product-badge product-badge-soldout">Sold Out</span>
+                                @endif
 
-                                    </a>
-                                    <a onclick="addToWishList({{ $product->id }})" class="whishlist"
-                                        href="javascript:void(0)"> <i class="far fa-heart"></i> </a>
+                                <!-- Wishlist Button -->
+                                <button class="wishlist-btn"
+                                    onclick="addToWishList({{ $product->id }}); event.preventDefault();">
+                                    <i class="far fa-heart"></i>
+                                </button>
 
-                                    <div class="product-action">
-                                        @if ($product->track_qty == 'Yes')
-                                            @if ($product->qty > 0)
-                                                <a class="btn btn-dark" href="javascript:void(0)"
-                                                    onclick="addToCart({{ $product->id }})">
-                                                    <i class="fa fa-shopping-cart"></i> Add To Cart
-                                                </a>
-                                            @else
-                                                <a class="btn btn-dark" href="javascript:void(0)">
-                                                    <i class="fa fa-shopping-cart"></i> Out Of Stock
-                                                </a>
-                                            @endif
-                                        @else
-                                            <a class="btn btn-dark" href="javascript:void(0)"
-                                                onclick="addToCart({{ $product->id }})">
-                                                <i class="fa fa-shopping-cart"></i> Add To Cart
-                                            </a>
-                                        @endif
-
-                                    </div>
+                                <!-- Quick Actions -->
+                                <div class="product-actions-overlay">
+                                    <button class="action-btn" onclick="addToWishList({{ $product->id }})"
+                                        title="Add to Wishlist">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn action-btn-add"
+                                        onclick="quickAddToCart({{ $product->id }})" title="Quick Add">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
-                                <div class="card-body text-center mt-3">
-                                    <a class="h6 link"
-                                        href="{{ route('front.product', $product->slug) }}">{{ $product->title }}</a>
-                                    <div class="price mt-2">
-                                        <span class="h5"><strong>৳{{ $product->price }}</strong></span>
-                                        @if ($product->compare_price > 0)
-                                            <span
-                                                class="h6 text-underline"><del>৳{{ $product->compare_price }}</del></span>
-                                        @endif
+                            </div>
+
+                            <div class="product-info">
+                                <span class="product-category">{{ $product->category->name ?? '' }}</span>
+                                <h3 class="product-title">
+                                    <a href="{{ route('front.product', $product->slug) }}">{{ $product->title }}</a>
+                                </h3>
+                                <div class="product-price">
+                                    <span class="price-current">৳{{ number_format($product->price) }}</span>
+                                    @if ($product->compare_price > 0)
+                                        <span class="price-original">৳{{ number_format($product->compare_price) }}</span>
+                                        <span
+                                            class="price-discount">{{ round((($product->compare_price - $product->price) / $product->compare_price) * 100) }}%
+                                            OFF</span>
+                                    @endif
+                                </div>
+                                <div class="product-rating">
+                                    <div class="rating-stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fas fa-star {{ $i <= 4 ? '' : 'empty' }}"></i>
+                                        @endfor
                                     </div>
+                                    <span class="rating-count">({{ $product->product_ratings_count ?? 0 }})</span>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 @endif
+            </div>
 
+            <div class="text-center mt-5">
+                <a href="{{ route('front.shop') }}" class="btn-outline-premium">
+                    View All Products <i class="fas fa-arrow-right ms-2"></i>
+                </a>
             </div>
         </div>
     </section>
 
-    <section class="section-4 pt-5">
+    <!-- Latest Products -->
+    <section class="section-products">
         <div class="container">
-            <div class="section-title">
-                <h2>Latest Produsts</h2>
+            <div class="section-header">
+                <h2 class="section-title">Latest Products</h2>
+                <p class="section-subtitle">Fresh arrivals to keep you on trend</p>
             </div>
-            <div class="row pb-3">
+
+            <div class="product-grid">
                 @if ($latestProducts->isNotEmpty())
                     @foreach ($latestProducts as $product)
                         @php
                             $productImage = $product->product_images->first();
                         @endphp
-                        <div class="col-md-3">
-                            <div class="card product-card">
-                                <div class="product-image position-relative">
-                                    <a href="{{ route('front.product', $product->slug) }}" class="product-img">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <a href="{{ route('front.product', $product->slug) }}">
+                                    @if (!empty($productImage->image))
+                                        <img src="{{ asset('uploads/product/small/' . $productImage->image) }}"
+                                            alt="{{ $product->title }}">
+                                    @else
+                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}"
+                                            alt="{{ $product->title }}">
+                                    @endif
+                                </a>
 
-                                        @if (!empty($productImage->image))
-                                            <img src="{{ asset('uploads/product/small/' . $productImage->image) }}"
-                                                class="card-img-top">
-                                        @else
-                                            <img src="{{ asset('admin-assets/img/default-150x150.png') }}"
-                                                class="card-img-top">
-                                        @endif
-                                    </a>
-                                    <a onclick="addToWishList({{ $product->id }})" class="whishlist"
-                                        href="javascript:void(0)"><i class="far fa-heart"></i></a>
+                                <!-- Badges -->
+                                @if ($product->compare_price > 0)
+                                    <span class="product-badge product-badge-sale">Sale</span>
+                                @else
+                                    <span class="product-badge product-badge-new">New</span>
+                                @endif
 
-                                    <div class="product-action">
-                                        @if ($product->track_qty == 'Yes')
-                                            @if ($product->qty > 0)
-                                                <a class="btn btn-dark" href="javascript:void(0)"
-                                                    onclick="addToCart({{ $product->id }})">
-                                                    <i class="fa fa-shopping-cart"></i> Add To Cart
-                                                </a>
-                                            @else
-                                                <a class="btn btn-dark" href="javascript:void(0)">
-                                                    <i class="fa fa-shopping-cart"></i> Out Of Stock
-                                                </a>
-                                            @endif
-                                        @else
-                                            <a class="btn btn-dark" href="javascript:void(0)"
-                                                onclick="addToCart({{ $product->id }})">
-                                                <i class="fa fa-shopping-cart"></i> Add To Cart
-                                            </a>
-                                        @endif
-                                    </div>
+                                <!-- Wishlist Button -->
+                                <button class="wishlist-btn"
+                                    onclick="addToWishList({{ $product->id }}); event.preventDefault();">
+                                    <i class="far fa-heart"></i>
+                                </button>
+
+                                <!-- Quick Actions -->
+                                <div class="product-actions-overlay">
+                                    <button class="action-btn" onclick="addToWishList({{ $product->id }})"
+                                        title="Add to Wishlist">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn action-btn-add"
+                                        onclick="quickAddToCart({{ $product->id }})" title="Quick Add">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
-                                <div class="card-body text-center mt-3">
-                                    <a class="h6 link"
-                                        href="{{ route('front.product', $product->slug) }}">{{ $product->title }}</a>
-                                    <div class="price mt-2">
-                                        <span class="h5"><strong>৳{{ $product->price }}</strong></span>
-                                        @if ($product->compare_price > 0)
-                                            <span
-                                                class="h6 text-underline"><del>৳{{ $product->compare_price }}</del></span>
-                                        @endif
+                            </div>
+
+                            <div class="product-info">
+                                <span class="product-category">{{ $product->category->name ?? '' }}</span>
+                                <h3 class="product-title">
+                                    <a href="{{ route('front.product', $product->slug) }}">{{ $product->title }}</a>
+                                </h3>
+                                <div class="product-price">
+                                    <span class="price-current">৳{{ number_format($product->price) }}</span>
+                                    @if ($product->compare_price > 0)
+                                        <span class="price-original">৳{{ number_format($product->compare_price) }}</span>
+                                    @endif
+                                </div>
+                                <div class="product-rating">
+                                    <div class="rating-stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fas fa-star {{ $i <= 4 ? '' : 'empty' }}"></i>
+                                        @endfor
                                     </div>
+                                    <span class="rating-count">({{ $product->product_ratings_count ?? 0 }})</span>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 @endif
             </div>
+
+            <div class="text-center mt-5">
+                <a href="{{ route('front.shop') }}" class="btn-outline-premium">
+                    View All Products <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="brands-section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="text-primary text-uppercase fw-semibold small ls-2">Trusted By</span>
+                <h2 class="fw-bold mt-2">Popular Brands</h2>
+                <p class="text-muted">Shop from the world's most trusted brands</p>
+            </div>
+
+            @if ($brands->isNotEmpty())
+                <div class="row g-4 justify-content-center">
+                    @foreach ($brands as $brand)
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <a href="{{ route('front.shop') }}?brand={{ $brand->id }}" class="brand-card">
+                                <div class="brand-logo-wrapper">
+                                    @if ($brand->image)
+                                        <img src="{{ asset('uploads/brand/' . $brand->image) }}"
+                                            alt="{{ $brand->name }}" class="brand-logo">
+                                    @else
+                                        <span class="brand-name-text">{{ substr($brand->name, 0, 2) }}</span>
+                                    @endif
+                                </div>
+                                <span class="brand-name">{{ $brand->name }}</span>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <p class="text-center text-muted">No brands available</p>
+            @endif
+        </div>
+    </section>
+
+    <!-- Promo Banner -->
+    <section class="py-5"
+        style="padding: var(--space-3xl) 0; background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-gray-800) 100%);">
+        <div class="container text-center">
+            <h2 style="font-size: 2.5rem; font-weight: 700; color: var(--color-white); margin-bottom: var(--space-md);">
+                Subscribe to Our Newsletter</h2>
+            <p
+                style="color: var(--color-gray-300); margin-bottom: var(--space-xl); max-width: 500px; margin-left: auto; margin-right: auto;">
+                Get exclusive offers and updates straight to your inbox. Join thousands of satisfied customers.</p>
+            <form class="d-flex justify-content-center" style="max-width: 450px; margin: 0 auto;">
+                <input type="email" placeholder="Enter your email"
+                    style="flex: 1; padding: var(--space-md) var(--space-lg); border: none; border-radius: var(--radius-lg) 0 0 var(--radius-lg); outline: none;">
+                <button type="submit" class="btn-premium btn-premium-accent"
+                    style="border-radius: 0 var(--radius-lg) var(--radius-lg) 0;">
+                    Subscribe
+                </button>
+            </form>
         </div>
     </section>
 

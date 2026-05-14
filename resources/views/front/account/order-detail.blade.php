@@ -1,158 +1,134 @@
 @extends('front.layouts.app')
 
+@section('title', 'Order Details - ASA Online Shop')
+
 @section('content')
-    <section class="section-5 pt-3 pb-3 mb-3 bg-white">
+
+    <!-- Breadcrumb -->
+    <section class="py-4" style="background: var(--color-gray-50);">
         <div class="container">
-            <div class="light-font">
-                <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('dashboard') }}">My Account</a></li>
-                    <li class="breadcrumb-item">My Orders</li>
-                </ol>
-            </div>
+            <nav class="breadcrumb-premium">
+                <a href="{{ route('front.home') }}">Home</a>
+                <span>/</span>
+                <a href="{{ route('dashboard') }}">My Account</a>
+                <span>/</span>
+                <a href="{{ route('front.orders') }}">Orders</a>
+                <span>/</span>
+                <span class="current">#{{ $order->id }}</span>
+            </nav>
         </div>
     </section>
 
-    <section class=" section-11 ">
-        <div class="container  mt-5">
+    <!-- Order Detail Content -->
+    <section class="py-5">
+        <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-lg-3 mb-4 mb-lg-0">
                     @include('front.common.sidebar')
                 </div>
-                <div class="col-md-9">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="h5 mb-0 pt-2 pb-2">My Orders</h2>
+
+                <div class="col-lg-9">
+                    <div class="checkout-form-card mb-4">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                            <h3 class="checkout-title mb-0">
+                                <i class="fas fa-shopping-bag"></i> Order #{{ $order->id }}
+                            </h3>
+                            <span class="badge"
+                                style="background: var(--color-success); padding: var(--space-sm) var(--space-md);">
+                                {{ ucfirst($order->status) }}
+                            </span>
                         </div>
 
-                        <div class="card-body pb-0">
-                            <!-- Info -->
-                            <div class="card card-sm">
-                                <div class="card-body bg-light mb-3">
-                                    <div class="row">
-                                        <div class="col-6 col-lg-3">
-                                            <!-- Heading -->
-                                            <h6 class="heading-xxxs text-muted">Order No: </h6>
-                                            <!-- Text -->
-                                            <p class="mb-lg-0 fs-sm fw-bold">
-                                                {{ $order->id }}
-                                            </p>
-                                        </div>
-                                        <div class="col-6 col-lg-3">
-                                            <!-- Heading -->
-                                            <h6 class="heading-xxxs text-muted">Shipped date:</h6>
-                                            <!-- Text -->
-                                            <p class="mb-lg-0 fs-sm fw-bold">
-                                                <time datetime="2019-10-01">
-                                                    @if (!empty($order->shipped_date))
-                                                        {{ \Carbon\Carbon::parse($order->shipped_date)->format('d M, Y') }}
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </time>
-                                            </p>
-                                        </div>
-                                        <div class="col-6 col-lg-3">
-                                            <!-- Heading -->
-                                            <h6 class="heading-xxxs text-muted">Status:</h6>
-                                            <!-- Text -->
-                                            <p class="mb-0 fs-sm fw-bold">
-                                                @if ($order->status == 'pending')
-                                                    <span class="badge bg-danger">Pending</span>
-                                                @elseif($order->status == 'shipped')
-                                                    <span class="badge bg-info">Shipped</span>
-                                                @elseif($order->status == 'cancelled')
-                                                    <span class="badge bg-danger">Cancelled</span>
-                                                @else
-                                                    <span class="badge bg-success">Delivered</span>
-                                                @endif
-                                            </p>
-                                        </div>
-                                        <div class="col-6 col-lg-3">
-                                            <!-- Heading -->
-                                            <h6 class="heading-xxxs text-muted">Order Amount:</h6>
-                                            <!-- Text -->
-                                            <p class="mb-0 fs-sm fw-bold">
-                                                ${{ number_format($order->grand_total, 2) }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                        <!-- Order Info -->
+                        <div class="row mb-4 pb-4" style="border-bottom: 1px solid var(--color-gray-100);">
+                            <div class="col-6 col-md-3">
+                                <h6 class="text-muted small">Order Date</h6>
+                                <p class="fw-semibold mb-0">
+                                    {{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <h6 class="text-muted small">Subtotal</h6>
+                                <p class="fw-semibold mb-0">৳{{ number_format($order->subtotal, 2) }}</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <h6 class="text-muted small">Shipping</h6>
+                                <p class="fw-semibold mb-0">৳{{ number_format($order->shipping, 2) }}</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <h6 class="text-muted small">Total</h6>
+                                <p class="fw-bold mb-0" style="font-size: 1.25rem;">
+                                    ৳{{ number_format($order->grand_total, 2) }}</p>
                             </div>
                         </div>
 
-                        <div class="card-footer p-3">
+                        <!-- Products -->
+                        <h4 class="mb-3">Order Items</h4>
+                        @foreach ($order->order_items as $item)
+                            @php
+                                $product = $item->product;
+                                // dd($product);
 
-                            <!-- Heading -->
-                            <h6 class="mb-7 h5 mt-4">Order Items ({{ $orderItemsCount }})</h6>
+                                $productImage = $product?->product_images->first();
+                                $productImagePath = null;
 
-                            <!-- Divider -->
-                            <hr class="my-3">
+                                if ($productImage?->image) {
+                                    $smallImagePath = public_path('uploads/product/small/' . $productImage->image);
+                                    $largeImagePath = public_path('uploads/product/large/' . $productImage->image);
 
-                            <!-- List group -->
-                            <ul>
-                                @foreach ($orderItems as $item)
-                                    <li class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col-4 col-md-3 col-xl-2">
-                                                <!-- Image -->
-                                                {{-- <a href="product.html"><img src="images/product-1.jpg" alt="..." class="img-fluid"></a> --}}
-                                                @php
-                                                    $productImage = getProductImage($item->product_id);
-                                                @endphp
-
-                                                @if (!empty($productImage->image))
-                                                    <img src="{{ asset('uploads/product/small/' . $productImage->image) }}"
-                                                        class="img-fluid">
-                                                @else
-                                                    <img src="{{ asset('admin-assets/img/default-150x150.png') }}"
-                                                        class="img-fluid">
-                                                @endif
-                                            </div>
-                                            <div class="col">
-                                                <!-- Title -->
-                                                <p class="mb-4 fs-sm fw-bold">
-                                                    <a class="text-body" href="product.html">{{ $item->name }} x
-                                                        {{ $item->qty }}</a> <br>
-                                                    <span class="text-muted">${{ $item->total }}</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                @endforeach
-
-                            </ul>
-                        </div>
+                                    $productImagePath = file_exists($smallImagePath)
+                                        ? asset('uploads/product/small/' . $productImage->image)
+                                        : (file_exists($largeImagePath)
+                                            ? asset('uploads/product/large/' . $productImage->image)
+                                            : null);
+                                }
+                            @endphp
+                            <div class="d-flex align-items-center gap-3 pb-3 mb-3"
+                                style="border-bottom: 1px solid var(--color-gray-100);">
+                                <div
+                                    style="width: 60px; height: 60px; background: var(--color-gray-100); border-radius: var(--radius-md); overflow: hidden;">
+                                    @if ($productImagePath)
+                                        <img src="{{ $productImagePath }}" class="img-fluid" alt="{{ $item->name }}">
+                                    @else
+                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}" class="img-fluid"
+                                            alt="{{ $item->name }}">
+                                    @endif
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1">{{ $item->name }}</h5>
+                                    <p class="text-muted mb-0 small">Qty: {{ $item->qty }} x
+                                        ৳{{ number_format($item->price) }}</p>
+                                </div>
+                                <div class="fw-semibold">৳{{ number_format($item->qty * $item->price) }}</div>
+                            </div>
+                        @endforeach
                     </div>
 
-                    <div class="card card-lg mb-5 mt-3">
-                        <div class="card-body">
-                            <!-- Heading -->
-                            <h6 class="mt-0 mb-3 h5">Order Total</h6>
-
-                            <!-- List group -->
-                            <ul>
-                                <li class="list-group-item d-flex">
-                                    <span>Subtotal</span>
-                                    <span class="ms-auto">${{ number_format($order->subtotal, 2) }}</span>
-                                </li>
-                                <li class="list-group-item d-flex">
-                                    <span>Discount
-                                        {{ !empty($order->coupon_code) ? '(' . $order->coupon_code . ')' : '' }}</span>
-                                    <span class="ms-auto">${{ number_format($order->discount, 2) }}</span>
-                                </li>
-                                <li class="list-group-item d-flex">
-                                    <span>Shipping</span>
-                                    <span class="ms-auto">${{ number_format($order->shipping, 2) }}</span>
-                                </li>
-                                <li class="list-group-item d-flex fs-lg fw-bold">
-                                    <span>Total</span>
-                                    <span class="ms-auto">${{ number_format($order->grand_total, 2) }}</span>
-                                </li>
-                            </ul>
+                    <!-- Shipping Address -->
+                    <div class="checkout-form-card">
+                        <h4 class="mb-3">
+                            <i class="fas fa-map-marker-alt me-2"></i> Shipping Address
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>{{ $order->first_name }} {{ $order->last_name }}</strong></p>
+                                <p class="text-muted mb-0">{{ $order->address }}</p>
+                                @if ($order->apartment)
+                                    <p class="text-muted mb-0">{{ $order->apartment }}</p>
+                                @endif
+                                <p class="text-muted mb-0">{{ $order->city }}, {{ $order->state }} {{ $order->zip }}
+                                </p>
+                                <p class="text-muted mb-0">{{ $order->country?->name ?? 'N/A' }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Contact</strong></p>
+                                <p class="text-muted mb-0">{{ $order->email }}</p>
+                                <p class="text-muted mb-0">{{ $order->mobile }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
 @endsection
